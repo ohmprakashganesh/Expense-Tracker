@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Expanse;
 import internship.intern.service.ExpanseService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/expanse")
@@ -33,5 +38,33 @@ public class ExpanseController {
 		
 		
 	}
+
+
+	@GetMapping("/all")
+	public ResponseEntity<?> getAllExpenses(){
+		return ResponseEntity.ok(expanseService.getAllExpenses());
+
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getSingleExpanse(@PathVariable Long id){
+		try{
+			return ResponseEntity.ok(expanseService.getExpenseById(id));
+
+		}catch(EntityNotFoundException ex){
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}catch(Exception e){
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("somtehing went wrong in code ");
+		}
+	}
+
+
+
+	
+	public String getMethodName(@RequestParam String param) {
+		return new String();
+	}
+	
+
 
 }
