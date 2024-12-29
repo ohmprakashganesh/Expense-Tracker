@@ -25,6 +25,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ExpanseController {
 	
 	private final ExpanseService expanseService;
+	public String getMethodName(@RequestParam String param) {
+		return new String();
+	}
+
+
+
+
 	
 	@PostMapping
 	public ResponseEntity<?> postExpense (@RequestBody ExpanseDTO expanseDTO){
@@ -58,12 +65,25 @@ public class ExpanseController {
 		}
 	}
 
-
+	
 
 	
-	public String getMethodName(@RequestParam String param) {
-		return new String();
+	
+	@PostMapping("update/{id}")
+public ResponseEntity<?> updateExpense(@PathVariable Long id,@RequestBody ExpanseDTO expanseDTO){
+	try{
+		return ResponseEntity.ok(expanseService.updateExpanse(id,expanseDTO));
+	}catch(EntityNotFoundException ex){
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body("that id doesnot exist"+id);
+	}catch( Exception e){
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("something went wrong ");
 	}
+
+
+}
+	
+
+
 	
 
 

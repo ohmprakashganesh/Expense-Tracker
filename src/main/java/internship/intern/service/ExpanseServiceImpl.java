@@ -54,5 +54,15 @@ public class ExpanseServiceImpl implements ExpanseService {
 	}
 
 	
+	public Expanse updateExpanse(Long id, ExpanseDTO expanseDTO){
+		Optional <Expanse> optional = expanseRepository.findById(id);
+		if(optional.isPresent()){
+			return  saveUpdateExpanse(optional.get(), expanseDTO);
+		}else{
+			throw new  EntityNotFoundException("expanse is not present with ihe id "+ id);
+		}
+	}
+
+	
 
 }
