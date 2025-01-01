@@ -1,4 +1,4 @@
-package internship.intern.service;
+package internship.intern.ServiceImpl;
 
 import java.util.Comparator;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Expanse;
 import internship.intern.repository.ExpanseRepository;
+import internship.intern.service.ExpanseService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 

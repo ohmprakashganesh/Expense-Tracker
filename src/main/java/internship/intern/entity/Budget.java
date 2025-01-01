@@ -1,6 +1,6 @@
 package internship.intern.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,28 +10,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-@Entity
 @Data
-public class Expanse {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String title;
-	
-	private String description;
-	
-	private String category;
-	
-	private LocalDate date;
-	
-	private Integer amount;
+@Entity
+public class Budget {
 
-	@ManyToOne
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @Id
+    private Long bid;
+    private  Double amount;
+    private Date startDate;
+    private Date endDate;
+    
+    @ManyToOne
 @JoinColumn(name = "user_id", nullable = false)
 private User user;
 
-
-	
 }

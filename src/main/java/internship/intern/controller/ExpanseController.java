@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/api/expanse")
+@RequestMapping("/expense")
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class ExpanseController {

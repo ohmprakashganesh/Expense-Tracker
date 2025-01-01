@@ -3,9 +3,9 @@ package internship.intern.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import internship.intern.entity.Expanse;
+import internship.intern.entity.Category;
 
 @Repository
-public interface ExpanseRepository extends JpaRepository<Expanse, Long> {
-
+public interface CategoryRepository extends JpaRepository<Category, Long> {
+    
 }

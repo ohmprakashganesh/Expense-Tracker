@@ -8,8 +8,10 @@ import internship.intern.entity.Expanse;
 public interface ExpanseService {
 
 	Expanse postExpanse(ExpanseDTO expanseDTO);
+
 	List<Expanse> getAllExpenses();
 
 	Expanse getExpenseById (Long id);
+	
 	Expanse updateExpanse(Long id, ExpanseDTO expanseDTO);
 }
