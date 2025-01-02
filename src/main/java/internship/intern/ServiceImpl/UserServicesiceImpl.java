@@ -1,7 +1,9 @@
 package internship.intern.ServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,12 @@ import internship.intern.entity.User;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.UserServices;
 import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class UserServicesiceImpl implements UserServices{
 
-    @Autowired
-   private  final  UserRepository  userRepository;
+   private final UserRepository userRepository;
 
 
 
@@ -32,25 +34,46 @@ public class UserServicesiceImpl implements UserServices{
 
     }
 
-    public User saveUpdateUser(User user, UserDTO userDTO){
-
-
-
-        user.setName(userDTO.getName());
-        user.setAddress(userDTO.getAddress());
-        user.setEmail(userDTO.getEmail());
-        user.setImage(userDTO.getImage());
-        user.setNumber(userDTO.getNumber());
-
-        user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
-        user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
-        user.setBudgets(convertToBudgets(userDTO.getBudgetsDtos(),user));
-
-
-
-
+    private User saveUpdateUser(User user, UserDTO userDTO) {
+        if (userDTO.getName() != null) {
+            user.setName(userDTO.getName());
+        }
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail());
+        }
+        if (userDTO.getImage() != null) {
+            user.setImage(userDTO.getImage());
+        }
+        if (userDTO.getNumber() != 0) {
+            user.setNumber(userDTO.getNumber());
+        }
+        if (userDTO.getAddress() != null) {
+            user.setAddress(userDTO.getAddress());
+        }
         return userRepository.save(user);
     }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll().stream().collect(Collectors.toList());
+
+
+    }
+
+   
+
+    // public User saveUpdateUser(User user, UserDTO userDTO){
+    //     user.setName(userDTO.getName());
+    //     user.setAddress(userDTO.getAddress());
+    //     user.setEmail(userDTO.getEmail());
+    //     user.setImage(userDTO.getImage());
+    //     // user.setNumber(userDTO.getNumber());
+    //     user.setNumber(938447547);
+
+    //     user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
+    //     user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
+    //     user.setBudgets(convertToBudgets(userDTO.getBudgetsDtos(),user));
+    //     return userRepository.save(user);
+    // }
 
      private List<Expanse> convertToExpanse(List<ExpanseDTO> expanseDTOs,User user) {
         if(expanseDTOs==null || expanseDTOs.isEmpty()){

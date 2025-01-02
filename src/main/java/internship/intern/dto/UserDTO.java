@@ -7,8 +7,6 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-
-        private Long uid;
     private  String name;
     private String email;
     private String  image;
