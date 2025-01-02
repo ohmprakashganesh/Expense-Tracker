@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class ExpanseServiceImpl implements ExpanseService {
 
 	private final ExpanseRepository expanseRepository;
+
 	@Override
 	public Expanse getExpenseById(Long id) {
 		Optional<Expanse> optionalExpanse= expanseRepository.findById(id);
@@ -30,11 +31,12 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 	}
 
-	public Expanse postExpanse(ExpanseDTO expanseDTO) {
-		
+
+	public Expanse postExpanse(ExpanseDTO expanseDTO) {	
 		return saveUpdateExpanse(new Expanse(), expanseDTO);
 	}
 	
+
 	private Expanse saveUpdateExpanse(Expanse expanse,ExpanseDTO expanseDTO)
 	{
 		
@@ -43,10 +45,9 @@ public class ExpanseServiceImpl implements ExpanseService {
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription());
-  
-		
 		return expanseRepository.save(expanse);
 	}
+
 
 	public List<Expanse> getAllExpenses(){
 		return expanseRepository.findAll().stream()

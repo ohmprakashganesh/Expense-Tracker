@@ -1,5 +1,6 @@
 package internship.intern.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -24,14 +25,14 @@ public class User {
     private String address;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Expanse> expanses;
+    private List<Expanse> expanses=  new ArrayList<>();
     
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Budget> budgets;
+    private List<Budget> budgets=new ArrayList<>();
 
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Category> categories;
+    private List<Category> categories=new ArrayList<>();
 
     
 }
