@@ -138,8 +138,20 @@ public class UserServicesiceImpl implements UserServices{
 
    public  List<User> getAllUsers(){
     return userRepository.findAll().stream().collect(Collectors.toList());
-    
+   }
 
+   public  void deleteUser(Long uid){
+     userRepository.findById(uid).orElseThrow(()->new EntityNotFoundException("not found with that id "+ uid));
+     userRepository.deleteById(uid);
+   }
+
+   public User updateUser(Long uid, UserDTO userDTO){
+      Optional<User> optional = userRepository.findById(uid);
+      if(optional.isPresent()){
+       return saveUpdateUser(optional.get(), userDTO);
+      }else{
+        throw new EntityNotFoundException("not found obje of that id"+uid);
+      }
    }
 
     
