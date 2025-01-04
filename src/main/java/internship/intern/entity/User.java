@@ -3,6 +3,8 @@ package internship.intern.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +27,7 @@ public class User {
     private String address;
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Expanse> expanses=  new ArrayList<>();
     
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

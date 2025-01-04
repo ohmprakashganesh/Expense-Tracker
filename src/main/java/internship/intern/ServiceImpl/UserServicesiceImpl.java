@@ -1,12 +1,10 @@
 package internship.intern.ServiceImpl;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import internship.intern.dto.BudgetDTO;
@@ -19,6 +17,7 @@ import internship.intern.entity.Expanse;
 import internship.intern.entity.User;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.UserServices;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -34,46 +33,46 @@ public class UserServicesiceImpl implements UserServices{
 
     }
 
-    private User saveUpdateUser(User user, UserDTO userDTO) {
-        if (userDTO.getName() != null) {
-            user.setName(userDTO.getName());
-        }
-        if (userDTO.getEmail() != null) {
-            user.setEmail(userDTO.getEmail());
-        }
-        if (userDTO.getImage() != null) {
-            user.setImage(userDTO.getImage());
-        }
-        if (userDTO.getNumber() != 0) {
-            user.setNumber(userDTO.getNumber());
-        }
-        if (userDTO.getAddress() != null) {
-            user.setAddress(userDTO.getAddress());
-        }
-        return userRepository.save(user);
-    }
+    // private User saveUpdateUser(User user, UserDTO userDTO) {
+    //     if (userDTO.getName() != null) {
+    //         user.setName(userDTO.getName());
+    //     }
+    //     if (userDTO.getEmail() != null) {
+    //         user.setEmail(userDTO.getEmail());
+    //     }
+    //     if (userDTO.getImage() != null) {
+    //         user.setImage(userDTO.getImage());
+    //     }
+    //     if (userDTO.getNumber() != 0) {
+    //         user.setNumber(userDTO.getNumber());
+    //     }
+    //     if (userDTO.getAddress() != null) {
+    //         user.setAddress(userDTO.getAddress());
+    //     }
+    //     return userRepository.save(user);
+    // }
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll().stream().collect(Collectors.toList());
+    // public List<User> getAllUsers(){
+    //     return userRepository.findAll().stream().collect(Collectors.toList());
 
 
-    }
+    // }
 
    
 
-    // public User saveUpdateUser(User user, UserDTO userDTO){
-    //     user.setName(userDTO.getName());
-    //     user.setAddress(userDTO.getAddress());
-    //     user.setEmail(userDTO.getEmail());
-    //     user.setImage(userDTO.getImage());
-    //     // user.setNumber(userDTO.getNumber());
-    //     user.setNumber(938447547);
+    public User saveUpdateUser(User user, UserDTO userDTO){
+        user.setName(userDTO.getName());
+        user.setAddress(userDTO.getAddress());
+        user.setEmail(userDTO.getEmail());
+        user.setImage(userDTO.getImage());
+        // user.setNumber(userDTO.getNumber());
+        user.setNumber(938447547);
 
-    //     user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
-    //     user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
-    //     user.setBudgets(convertToBudgets(userDTO.getBudgetsDtos(),user));
-    //     return userRepository.save(user);
-    // }
+        user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
+        user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
+        user.setBudgets(convertToBudgets(userDTO.getBudgetsDtos(),user));
+        return userRepository.save(user);
+    }
 
      private List<Expanse> convertToExpanse(List<ExpanseDTO> expanseDTOs,User user) {
         if(expanseDTOs==null || expanseDTOs.isEmpty()){
@@ -121,7 +120,6 @@ public class UserServicesiceImpl implements UserServices{
             category.setUser(user);
           return  category;
 
-
         }).collect(Collectors.toList());
       
     }
@@ -129,7 +127,18 @@ public class UserServicesiceImpl implements UserServices{
 
 
    public User getUser(Long id){
-    return new User();
+     Optional<User> optional = userRepository.findById(id);
+     if(optional.isPresent()){
+        return  optional.get();
+     }else{
+        throw new EntityNotFoundException("please "+id);
+     }
+
+   }
+
+   public  List<User> getAllUsers(){
+    return userRepository.findAll().stream().collect(Collectors.toList());
+    
 
    }
 

@@ -3,6 +3,7 @@ package internship.intern.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +29,14 @@ public class ExpanseController {
 	public String getMethodName(@RequestParam String param) {
 		return new String();
 	}
+
+
+	@DeleteMapping("/deleteExpense/{id}")
+	public ResponseEntity<?> deleteOperation(@PathVariable Long id) {
+		expanseService.deleteById(id);
+		return ResponseEntity.ok("Successfully deleted");
+	}
+	
 
 
 
@@ -63,6 +72,9 @@ public class ExpanseController {
 		}catch(Exception e){
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("somtehing went wrong in code ");
 		}
+ 
+
+
 	}
 
 	

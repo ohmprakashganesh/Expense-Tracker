@@ -12,6 +12,8 @@ public interface ExpanseService {
 	List<Expanse> getAllExpenses();
 
 	Expanse getExpenseById (Long id);
+
+	void deleteById(Long id);
 	
 	Expanse updateExpanse(Long id, ExpanseDTO expanseDTO);
 }

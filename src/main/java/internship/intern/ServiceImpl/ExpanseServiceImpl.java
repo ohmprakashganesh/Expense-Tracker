@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Expanse;
+import internship.intern.entity.User;
 import internship.intern.repository.ExpanseRepository;
+import internship.intern.repository.UserRepository;
 import internship.intern.service.ExpanseService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ExpanseServiceImpl implements ExpanseService {
 
 	private final ExpanseRepository expanseRepository;
+	private final UserRepository userRepository;
 
 	@Override
 	public Expanse getExpenseById(Long id) {
@@ -30,6 +33,13 @@ public class ExpanseServiceImpl implements ExpanseService {
 		}
 
 	}
+
+	public void deleteById(Long id) {
+		 expanseRepository.findById(id)
+			.orElseThrow(() -> new EntityNotFoundException("Expanse with ID " + id + " not found"));
+		expanseRepository.deleteById(id);
+	}
+	
 
 
 	public Expanse postExpanse(ExpanseDTO expanseDTO) {	
@@ -45,8 +55,18 @@ public class ExpanseServiceImpl implements ExpanseService {
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription());
+		 expanse.setUser(getUser());
 		return expanseRepository.save(expanse);
 	}
+	public User getUser() {
+		Optional<User> optional = userRepository.findById(11L);
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new EntityNotFoundException("User not found for the given ID");
+		}
+	}
+	
 
 
 	public List<Expanse> getAllExpenses(){
