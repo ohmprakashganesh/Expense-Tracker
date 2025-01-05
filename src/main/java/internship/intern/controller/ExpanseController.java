@@ -16,7 +16,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -26,10 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ExpanseController {
 	
 	private final ExpanseService expanseService;
-	public String getMethodName(@RequestParam String param) {
-		return new String();
-	}
-
+	
 
 	@DeleteMapping("/deleteExpense/{id}")
 	public ResponseEntity<?> deleteOperation(@PathVariable Long id) {

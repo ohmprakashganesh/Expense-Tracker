@@ -33,33 +33,6 @@ public class UserServicesiceImpl implements UserServices{
 
     }
 
-    // private User saveUpdateUser(User user, UserDTO userDTO) {
-    //     if (userDTO.getName() != null) {
-    //         user.setName(userDTO.getName());
-    //     }
-    //     if (userDTO.getEmail() != null) {
-    //         user.setEmail(userDTO.getEmail());
-    //     }
-    //     if (userDTO.getImage() != null) {
-    //         user.setImage(userDTO.getImage());
-    //     }
-    //     if (userDTO.getNumber() != 0) {
-    //         user.setNumber(userDTO.getNumber());
-    //     }
-    //     if (userDTO.getAddress() != null) {
-    //         user.setAddress(userDTO.getAddress());
-    //     }
-    //     return userRepository.save(user);
-    // }
-
-    // public List<User> getAllUsers(){
-    //     return userRepository.findAll().stream().collect(Collectors.toList());
-
-
-    // }
-
-   
-
     public User saveUpdateUser(User user, UserDTO userDTO){
         user.setName(userDTO.getName());
         user.setAddress(userDTO.getAddress());

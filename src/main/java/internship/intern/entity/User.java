@@ -33,7 +33,7 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Budget> budgets=new ArrayList<>();
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Category> categories=new ArrayList<>();
 

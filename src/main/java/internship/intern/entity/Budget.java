@@ -20,7 +20,6 @@ public class Budget {
     private  Double amount;
     private Date startDate;
     private Date endDate;
-    
     @ManyToOne
 @JoinColumn(name = "user_id", nullable = false)
 private User user;
