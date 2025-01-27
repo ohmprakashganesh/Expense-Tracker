@@ -8,8 +8,12 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import internship.intern.dto.ExpanseDTO;
+import internship.intern.entity.Budget;
+import internship.intern.entity.Category;
 import internship.intern.entity.Expanse;
 import internship.intern.entity.User;
+import internship.intern.repository.BudgetRepository;
+import internship.intern.repository.CategoryRepository;
 import internship.intern.repository.ExpanseRepository;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.ExpanseService;
@@ -21,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 public class ExpanseServiceImpl implements ExpanseService {
 
 	private final ExpanseRepository expanseRepository;
+	private final BudgetRepository budgetRepository;
+	private final CategoryRepository categoryRepository;
 	private final UserRepository userRepository;
 
 	@Override
@@ -51,19 +57,36 @@ public class ExpanseServiceImpl implements ExpanseService {
 	{
 		
 		expanse.setTitle(expanseDTO.getTitle());
-		expanse.setCategory(expanseDTO.getCategory());
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription());
 		 expanse.setUser(getUser());
+		 expanse.setBudget(getBudget());
+		 expanse.setCategory(getCategory());
 		return expanseRepository.save(expanse);
 	}
 	public User getUser() {
-		Optional<User> optional = userRepository.findById(11L);
+		Optional<User> optional = userRepository.findById(2L);
 		if (optional.isPresent()) {
 			return optional.get();
 		} else {
-			throw new EntityNotFoundException("User not found for the given ID");
+			throw new EntityNotFoundException("User not found for the given ID expanse table");
+		}
+	}
+	public Budget getBudget() {
+		Optional<Budget> optional = budgetRepository.findById(36L);
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new EntityNotFoundException("User not found for the given ID for expanse table");
+		}
+	}
+	public Category getCategory() {
+		Optional<Category> optional = categoryRepository.findById(5L);
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new EntityNotFoundException("category  not found for the given ID for expanse table");
 		}
 	}
 	

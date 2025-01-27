@@ -17,7 +17,9 @@ public class ExpanseDTO {
 	
 	private LocalDate date;
 	
-	private Integer amount;
+	private Double amount;
+
+
 
 	
 

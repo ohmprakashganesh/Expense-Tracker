@@ -1,6 +1,7 @@
 package internship.intern.ServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,22 +16,32 @@ import internship.intern.repository.UserRepository;
 import internship.intern.service.BudgetService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-@Service
 @RequiredArgsConstructor
+@Slf4j
+@Service
 public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetRepository budgetRepository;
+
     private final UserRepository userRepository;
 
      public Budget postBudget(BudgetDTO budgetDTO){
+        log.info("Received BudgetDTO: {}", budgetDTO);
       return postOrUpdateBudget(new Budget(), budgetDTO);
       
-
      }
     
    
      public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
+        
+
+        System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
+        System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
+        System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
+    
+        // Map fields
         budget.setAmount(budgetDTO.getAmount());
         budget.setEndDate(budgetDTO.getEndDate());
         budget.setStartDate(budgetDTO.getStartDate());
@@ -39,7 +50,7 @@ public class BudgetServiceImpl implements BudgetService {
      }
 
      public User getUser(){
-        Optional <User> optional= userRepository.findById(5L);
+        Optional <User> optional= userRepository.findById(2L);
         if(optional.isPresent()){
             return optional.get();
         }else{
@@ -67,6 +78,8 @@ public class BudgetServiceImpl implements BudgetService {
      budgetRepository.deleteById(id);
      System.out.println("successfully deleted  Budget of id "+id);
      }
+
+
     public Budget  updateBudget(Long id, BudgetDTO budgetDTO){
     Budget budget= new Budget();
     Optional <Budget> optional= budgetRepository.findById(id);

@@ -17,21 +17,24 @@ public class Expanse {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String title;
-	
+
 	private String description;
-	
-	private String category;
-	
+
 	private LocalDate date;
-	
-	private Integer amount;
+
+	private Double amount;
 
 	@ManyToOne
-@JoinColumn(name = "user_id", nullable = false)
-private User user;
+    @JoinColumn(name = "user_id", nullable = false)
+     private User user;
 
+   @ManyToOne
+   @JoinColumn(name = "budget_id", nullable = false)
+   private  Budget budget;
 
-	
+   @ManyToOne
+   @JoinColumn(name ="category_id", nullable = false)
+   private Category category;
 }
