@@ -42,9 +42,7 @@ public class Budget {
      @JsonIgnore
      private List< Category> categories;
 
-     @OneToMany(mappedBy = "budget", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-     @JsonIgnore
-     private List<Expanse> expanses;
+
 
 
 

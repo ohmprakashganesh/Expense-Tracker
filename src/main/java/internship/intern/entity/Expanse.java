@@ -26,13 +26,9 @@ public class Expanse {
 
 	private Double amount;
 
-	@ManyToOne
+	   @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
      private User user;
-
-   @ManyToOne
-   @JoinColumn(name = "budget_id",nullable = false)
-   private  Budget budget;
 
    @ManyToOne
    @JoinColumn(name ="category_id",nullable = false)

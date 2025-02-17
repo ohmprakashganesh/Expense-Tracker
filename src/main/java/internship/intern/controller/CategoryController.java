@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import internship.intern.dto.BudgetDTO;
 import internship.intern.dto.CategoryDTO;
 import internship.intern.entity.Category;
 import internship.intern.service.CategoryService;
@@ -12,8 +14,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -24,9 +28,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<?> postAllCategory(@RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<?> postAllCategory(@RequestBody CategoryDTO categoryDTO ){
         System.out.println("Received CategoryDTO: " + categoryDTO);
-        Category category = categoryService.postCategory(categoryDTO);
+        BudgetDTO budgetDTO=new BudgetDTO();
+        budgetDTO.setAmount(categoryDTO.getAmount());
+        budgetDTO.setStartDate(categoryDTO.getStartDate());
+        budgetDTO.setEndDate(categoryDTO.getEndDate());
+        Category category = categoryService.postCategory(categoryDTO, budgetDTO);
         if (category != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body( category);
         } else {
@@ -38,7 +46,7 @@ public class CategoryController {
     public ResponseEntity<?> getCategories(){
       return ResponseEntity.ok(categoryService.allCategories());
     }
-    
+
     @GetMapping("/single/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id){
     return ResponseEntity.ok(categoryService.getCategory(id));
@@ -49,7 +57,11 @@ public class CategoryController {
       return ResponseEntity.ok("successfully deleted ");
     }
     @PostMapping("update/{id}")
-    public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
-    return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO));
+    public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO, BudgetDTO budgetDTO){
+    return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO , budgetDTO));
     }
+     @GetMapping("/name/{name}")
+     public Category getMethodName(@PathVariable String name) {
+     return categoryService.getCategoryByName(name);
+}
 }

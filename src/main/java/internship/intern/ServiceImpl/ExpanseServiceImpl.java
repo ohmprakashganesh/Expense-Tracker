@@ -67,7 +67,6 @@ public class ExpanseServiceImpl implements ExpanseService {
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription());
 		 expanse.setUser(getUser());
-		 expanse.setBudget(getBudget());
 		 expanse.setCategory(getCategory());
 		return expanseRepository.save(expanse);
 	}
@@ -127,8 +126,8 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 	public ExpanseSummeryDTO getSummery(){
 			return new ExpanseSummeryDTO(getTotalExpenses(),getCategoryByName("om"));
-	 
 	   }
+
 
 
 

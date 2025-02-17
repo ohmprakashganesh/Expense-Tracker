@@ -28,13 +28,11 @@ public class Category {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    
     @ManyToOne
     @JoinColumn(name = "budget_id", nullable =  false)
     private Budget budget;
 
-    @OneToMany(mappedBy="category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIgnore
+    @OneToMany
     private List<Expanse> expanses;
     
 
