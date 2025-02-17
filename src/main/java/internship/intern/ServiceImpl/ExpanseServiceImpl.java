@@ -5,9 +5,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import internship.intern.dto.CategoryDTO;
+import internship.intern.dto.CategoryExpenseDTO;
 import internship.intern.dto.ExpanseDTO;
+import internship.intern.dto.ExpanseSummeryDTO;
+import internship.intern.dto.MonthlyExpenseDTO;
 import internship.intern.entity.Budget;
 import internship.intern.entity.Category;
 import internship.intern.entity.Expanse;
@@ -107,6 +113,45 @@ public class ExpanseServiceImpl implements ExpanseService {
 			throw new  EntityNotFoundException("expanse is not present with ihe id "+ id);
 		}
 	}
+
+	public Double getTotalExpenses(){
+		return expanseRepository.getTotalExpenses();
+	
+	}
+
+
+	@Override
+	public  Category getCategoryByName(String name) {
+		   return expanseRepository.getCategoryByName(name);
+	}
+
+	public ExpanseSummeryDTO getSummery(){
+			return new ExpanseSummeryDTO(getTotalExpenses(),getCategoryByName("om"));
+	 
+	   }
+
+
+
+	// @Override
+	// public ExpanseSummeryDTO getExpenseSummery() {
+	// 	Double totalExpense=expanseRepository.getTotalExpenses(2L);
+
+	// 	List <CategoryExpenseDTO> expenseByCategory= expanseRepository.getExpansesByCategory();
+	// 	return new ExpanseSummeryDTO(totalExpense, expenseByCategory);
+
+	// }
+
+	// @Override
+	// public List<CategoryExpenseDTO> getExpensesByCategory() {
+	// 	// TODO Auto-generated method stub
+	// 	throw new UnsupportedOperationException("Unimplemented method 'getExpensesByCategory'");
+	// }
+
+	// @Override
+	// public List<MonthlyExpenseDTO> getMonthlyExpenseReport() {
+	// 	// TODO Auto-generated method stub
+	// 	throw new UnsupportedOperationException("Unimplemented method 'getMonthlyExpenseReport'");
+	// }
 
 	
 

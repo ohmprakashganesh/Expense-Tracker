@@ -33,10 +33,12 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
     @GetMapping("/all")
     public ResponseEntity<?> getCategories(){
       return ResponseEntity.ok(categoryService.allCategories());
     }
+    
     @GetMapping("/single/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id){
     return ResponseEntity.ok(categoryService.getCategory(id));

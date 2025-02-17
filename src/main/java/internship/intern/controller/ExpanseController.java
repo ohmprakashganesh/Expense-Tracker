@@ -61,7 +61,9 @@ public class ExpanseController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getSingleExpanse(@PathVariable Long id){
 		try{
-			return ResponseEntity.ok(expanseService.getExpenseById(id));
+			Expanse expanse= expanseService.getExpenseById(id);
+			System.out.println(expanse.getUser().getName());
+			return ResponseEntity.ok(expanse);
 
 		}catch(EntityNotFoundException ex){
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());

@@ -41,8 +41,12 @@ private final  BudgetService budgetService;
    }
    @GetMapping("/single/{bid}")
    public ResponseEntity<?> getBudget(@PathVariable Long bid){
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(budgetService.findBudget(bid));
+
+    Budget budget= budgetService.findBudget(bid);
+
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(budget);
    }
+
    @GetMapping("/all")
    public ResponseEntity<?> getAllBudgets() {
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(budgetService.findBudgets());
@@ -58,5 +62,6 @@ private final  BudgetService budgetService;
     budgetService.deleteBudget(bid);
        return ResponseEntity.ok("successfully deleted");
    }
+
 
 }
