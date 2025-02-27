@@ -65,9 +65,11 @@ public class ExpanseServiceImpl implements ExpanseService {
 		expanse.setTitle(expanseDTO.getTitle());
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
-         expanse.setDescription(expanseDTO.getDescription());
+         expanse.setDescription(expanseDTO.getDescription()); 
+
 		 expanse.setUser(getUser());
 		 expanse.setCategory(getCategory());
+		 
 		return expanseRepository.save(expanse);
 	}
 	public User getUser() {
@@ -78,6 +80,16 @@ public class ExpanseServiceImpl implements ExpanseService {
 			throw new EntityNotFoundException("User not found for the given ID expanse table");
 		}
 	}
+
+	public Category getCategory() {
+		Optional<Category> optional = Optional.of(categoryRepository.findByName("shoes"));
+		if (optional.isPresent()) {
+			return optional.get();
+		} else {
+			throw new EntityNotFoundException("category  not found for the given ID for expanse table");
+		}
+	}
+	
 	public Budget getBudget() {
 		Optional<Budget> optional = budgetRepository.findById(36L);
 		if (optional.isPresent()) {
@@ -86,15 +98,7 @@ public class ExpanseServiceImpl implements ExpanseService {
 			throw new EntityNotFoundException("User not found for the given ID for expanse table");
 		}
 	}
-	public Category getCategory() {
-		Optional<Category> optional = categoryRepository.findById(5L);
-		if (optional.isPresent()) {
-			return optional.get();
-		} else {
-			throw new EntityNotFoundException("category  not found for the given ID for expanse table");
-		}
-	}
-	
+
 
 
 	public List<Expanse> getAllExpenses(){

@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -30,10 +29,13 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<?> postAllCategory(@RequestBody CategoryDTO categoryDTO ){
         System.out.println("Received CategoryDTO: " + categoryDTO);
+
         BudgetDTO budgetDTO=new BudgetDTO();
+
         budgetDTO.setAmount(categoryDTO.getAmount());
         budgetDTO.setStartDate(categoryDTO.getStartDate());
         budgetDTO.setEndDate(categoryDTO.getEndDate());
+        
         Category category = categoryService.postCategory(categoryDTO, budgetDTO);
         if (category != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body( category);

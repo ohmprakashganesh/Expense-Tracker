@@ -33,15 +33,21 @@ public class CategoryServiceImpl implements CategoryService {
     public Category postCategory(CategoryDTO categoryDTO, BudgetDTO budgetDTO){
         return saveOrUpdateCategory(new Category(), categoryDTO , budgetDTO);
     }
+
     public Category saveOrUpdateCategory(Category category, CategoryDTO categoryDTO , BudgetDTO budgetDTO){
     category.setName(categoryDTO.getName());
 
     System.out.println("name is "+categoryDTO.getName());
+
         category.setUser(getUser());
-        category.setBudget(getBudget(budgetDTO, new Budget()));
-       return  categoryRepository.save(category);
+       Category obj = categoryRepository.save(category);
+      getBudget(budgetDTO, new Budget(), obj);
+       
+      return categoryRepository.findByName(category.getName());
+
 
     }
+
     public User getUser(){
       Optional <User> optional= userRepository.findById(2L);
       if(optional.isPresent()){
@@ -50,11 +56,12 @@ public class CategoryServiceImpl implements CategoryService {
           throw new  EntityNotFoundException("user is not found");
       }
    }
-  public Budget getBudget(BudgetDTO budgetDTO, Budget budget) {
+  public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category) {
        budget.setAmount(budgetDTO.getAmount());
        budget.setStartDate(budgetDTO.getStartDate());
        budget.setEndDate(budgetDTO.getEndDate());
        budget.setUser(getUser());
+       budget.setCategory(category);
     return budgetRepository.save(budget);
 	}
   public void deleteCategory(Long id){
@@ -88,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService {
   }
   @Override
   public Category getCategoryByName(String name) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'getCategoryByName'");
   }
 }

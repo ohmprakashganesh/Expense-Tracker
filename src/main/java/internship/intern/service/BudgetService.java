@@ -7,7 +7,7 @@ import internship.intern.entity.Budget;
 
 public interface BudgetService {
 
-     Budget postBudget(BudgetDTO budget);
+     // Budget postBudget(BudgetDTO budget);
      Budget findBudget(Long id);
      List<Budget> findBudgets();
      void deleteBudget(Long id);

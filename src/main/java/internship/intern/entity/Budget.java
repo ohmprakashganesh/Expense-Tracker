@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
@@ -38,9 +39,10 @@ public class Budget {
     @JoinColumn(name = "user_id", nullable = false)
      private User user;
 
-     @OneToMany(mappedBy = "budget",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-     @JsonIgnore
-     private List< Category> categories;
+     @OneToOne  
+    @JsonIgnore
+     @JoinColumn(name = "category_id", nullable = false, unique = true )
+     private Category category;
 
 
 

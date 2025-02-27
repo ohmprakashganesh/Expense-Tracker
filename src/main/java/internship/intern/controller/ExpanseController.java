@@ -34,10 +34,6 @@ public class ExpanseController {
 	}
 	
 
-
-
-
-	
 	@PostMapping
 	public ResponseEntity<?> postExpense (@RequestBody ExpanseDTO expanseDTO){
 		Expanse createdExpanse= expanseService.postExpanse(expanseDTO);

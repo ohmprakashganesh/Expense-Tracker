@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import internship.intern.dto.BudgetDTO;
 import internship.intern.entity.Budget;
+import internship.intern.entity.Category;
 import internship.intern.entity.User;
 import internship.intern.repository.BudgetRepository;
+import internship.intern.repository.CategoryRepository;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.BudgetService;
 import jakarta.persistence.EntityNotFoundException;
@@ -25,40 +27,43 @@ public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetRepository budgetRepository;
 
+    private final CategoryRepository categoryRepository;
+
     private final UserRepository userRepository;
 
-     public Budget postBudget(BudgetDTO budgetDTO){
-        log.info("Received BudgetDTO: {}", budgetDTO);
-      return postOrUpdateBudget(new Budget(), budgetDTO);
+
+    //  public Budget postBudget(BudgetDTO budgetDTO){
+    //     log.info("Received BudgetDTO: {}", budgetDTO);
+    //   return postOrUpdateBudget(new Budget(), budgetDTO);
       
-     }
+    //  }
     
    
-     public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
+    //  public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
+        
+    //    Optional<Category> category = categoryRepository.findById(2L);
         
 
-        System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
-        System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
-        System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
+    //     System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
+    //     System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
+    //     System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
     
-        // Map fields
-        budget.setAmount(budgetDTO.getAmount());
-        budget.setEndDate(budgetDTO.getEndDate());
-        budget.setStartDate(budgetDTO.getStartDate());
-        budget.setUser(getUser());
-        return  budgetRepository.save(budget);
-     }
+    //     // Map fields
+    //     budget.setAmount(budgetDTO.getAmount());
+    //     budget.setEndDate(budgetDTO.getEndDate());
+    //     budget.setStartDate(budgetDTO.getStartDate());
+    //     return  budgetRepository.save(budget);  
+    //  }
+    //  public User getUser(){
+    //     Optional <User> optional= userRepository.findById(2L);
+    //     if(optional.isPresent()){
+    //         return optional.get();
+    //     }else{
+    //         throw new  EntityNotFoundException("user is not found");
+    //     }
+    //  }
 
-     public User getUser(){
-        Optional <User> optional= userRepository.findById(2L);
-        if(optional.isPresent()){
-            return optional.get();
-        }else{
-            throw new  EntityNotFoundException("user is not found");
-        }
-
-     }
-
+    
      public Budget findBudget(Long id){
         Optional <Budget> optional= budgetRepository.findById(id);
         if(optional.isPresent()){
@@ -81,10 +86,12 @@ public class BudgetServiceImpl implements BudgetService {
 
 
     public Budget  updateBudget(Long id, BudgetDTO budgetDTO){
-    Budget budget= new Budget();
+   
     Optional <Budget> optional= budgetRepository.findById(id);
     if(optional.isPresent()){
-       return postOrUpdateBudget(budget, budgetDTO);
+        Budget budget= optional.get();
+        budget.setAmount(budgetDTO.getAmount());
+       return  budgetRepository.save(budget);
     }else{
         throw new EntityNotFoundException("no such data lies in database ");
     }

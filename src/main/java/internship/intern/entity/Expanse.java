@@ -2,6 +2,9 @@ package internship.intern.entity;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,11 +29,13 @@ public class Expanse {
 
 	private Double amount;
 
-	   @ManyToOne
+    @ManyToOne
+	@JsonManagedReference // Add this annotation
     @JoinColumn(name = "user_id",nullable = false)
      private User user;
 
    @ManyToOne
+   @JsonIgnore
    @JoinColumn(name ="category_id",nullable = false)
    private Category category;
 }
