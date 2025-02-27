@@ -2,9 +2,8 @@ package internship.intern.service;
 
 import java.util.List;
 
-
+import internship.intern.DTO2.ExpanseSummeryDTO;
 import internship.intern.dto.ExpanseDTO;
-import internship.intern.dto.ExpanseSummeryDTO;
 import internship.intern.entity.Category;
 import internship.intern.entity.Expanse;
 
@@ -21,6 +20,11 @@ public interface ExpanseService {
     Double getTotalExpenses();
 
 	Category getCategoryByName(String categoryName);
+    
+	
+
+	List<Expanse> expByCategory(String name);
+
 
 
 

@@ -2,6 +2,8 @@ package internship.intern.repository;
 
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +15,9 @@ import internship.intern.entity.Expanse;
 
 @Repository
 public interface ExpanseRepository extends JpaRepository<Expanse, Long> {
+
+     
+    List<Expanse>  findByCategoryName(String name);
 
     @Query("SELECT SUM(e.amount) FROM Expanse e")
     Double getTotalExpenses();

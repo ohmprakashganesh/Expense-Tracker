@@ -3,8 +3,8 @@ package internship.intern.ReportsResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import internship.intern.DTO2.ExpanseSummeryDTO;
 import internship.intern.dto.ExpanseDTO;
-import internship.intern.dto.ExpanseSummeryDTO;
 import internship.intern.service.ExpanseService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;

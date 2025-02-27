@@ -31,7 +31,6 @@ public class Category {
     private User user;
 
     @OneToOne(mappedBy = "category",cascade = CascadeType.ALL)
-    @JsonIgnore
     private Budget budget;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)

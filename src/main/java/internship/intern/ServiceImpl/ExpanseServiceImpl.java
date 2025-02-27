@@ -9,11 +9,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import internship.intern.DTO2.CategoryExpenseDTO;
+import internship.intern.DTO2.ExpanseSummeryDTO;
+import internship.intern.DTO2.MonthlyExpenseDTO;
 import internship.intern.dto.CategoryDTO;
-import internship.intern.dto.CategoryExpenseDTO;
 import internship.intern.dto.ExpanseDTO;
-import internship.intern.dto.ExpanseSummeryDTO;
-import internship.intern.dto.MonthlyExpenseDTO;
 import internship.intern.entity.Budget;
 import internship.intern.entity.Category;
 import internship.intern.entity.Expanse;
@@ -69,7 +69,7 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 		 expanse.setUser(getUser());
 		 expanse.setCategory(getCategory());
-		 
+
 		return expanseRepository.save(expanse);
 	}
 	public User getUser() {
@@ -124,13 +124,21 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 
 	@Override
-	public  Category getCategoryByName(String name) {
+	public Category getCategoryByName(String name) {
 		   return expanseRepository.getCategoryByName(name);
 	}
 
 	public ExpanseSummeryDTO getSummery(){
-			return new ExpanseSummeryDTO(getTotalExpenses(),getCategoryByName("om"));
+		return null;
 	   }
+
+	@Override
+	public List<Expanse> expByCategory(String name) {
+		return expanseRepository.findByCategoryName(name);
+	}
+
+	
+	
 
 
 

@@ -1,4 +1,4 @@
-package internship.intern.dto;
+package internship.intern.DTO2;
 
 import lombok.Data;
 

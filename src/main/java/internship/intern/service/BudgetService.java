@@ -11,5 +11,6 @@ public interface BudgetService {
      Budget findBudget(Long id);
      List<Budget> findBudgets();
      void deleteBudget(Long id);
+     Double getTotalBudget();
      Budget  updateBudget(Long id, BudgetDTO budgetDTO);
 }

@@ -98,6 +98,12 @@ public class BudgetServiceImpl implements BudgetService {
 
     }
 
+    @Override
+    public Double getTotalBudget() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTotalBudget'");
+    }
+
 
 
 
