@@ -104,6 +104,11 @@ public class BudgetServiceImpl implements BudgetService {
         throw new UnsupportedOperationException("Unimplemented method 'getTotalBudget'");
     }
 
+    @Override
+    public Double getTotalBudgetByUser(User user) {
+        return budgetRepository.findAmountByUser(user);
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package internship.intern.ServiceImpl;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import internship.intern.dto.BudgetDTO;
 import internship.intern.dto.CategoryDTO;
+import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Budget;
 import internship.intern.entity.Category;
+import internship.intern.entity.Expanse;
 import internship.intern.entity.User;
 import internship.intern.repository.BudgetRepository;
 import internship.intern.repository.CategoryRepository;
@@ -39,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     System.out.println("name is "+categoryDTO.getName());
 
-        category.setUser(getUser());
+       category.setUser(getUser());
        Category obj = categoryRepository.save(category);
       getBudget(budgetDTO, new Budget(), obj);
        
@@ -96,6 +99,37 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public Category getCategoryByName(String name) {
     throw new UnsupportedOperationException("Unimplemented method 'getCategoryByName'");
+  }
+
+  @Override
+  public List<CategoryDTO> categoryByUser(User user) {
+     List<Category> categories= categoryRepository.findByUser(user);
+     List<CategoryDTO> categoryDTOs=new ArrayList<>();
+
+     //loop to convert category to category dto
+      for(Category category: categories){
+         CategoryDTO dto= new CategoryDTO();
+         dto.setName(category.getName());
+         dto.setAmount(category.getBudget().getAmount());
+         dto.setEndDate(category.getBudget().getEndDate());
+         dto.setStartDate(category.getBudget().getStartDate());
+         //loop to convert expanse dto to expanse dto 
+         List<ExpanseDTO> expanseDTOs=new ArrayList<>();
+         for(Expanse expanse: category.getExpanses()){
+          ExpanseDTO obj= new ExpanseDTO();
+          obj.setId(expanse.getId());
+          obj.setAmount(expanse.getAmount());
+          obj.setTitle(expanse.getTitle());     
+          obj.setDescription(expanse.getDescription());
+          obj.setDate(expanse.getDate());
+          expanseDTOs.add(obj);
+         }
+         dto.setExpanses(expanseDTOs);
+         categoryDTOs.add(dto);
+      }
+      return categoryDTOs;
+      
+
   }
 }
  

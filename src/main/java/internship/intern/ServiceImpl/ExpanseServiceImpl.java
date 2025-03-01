@@ -137,6 +137,11 @@ public class ExpanseServiceImpl implements ExpanseService {
 		return expanseRepository.findByCategoryName(name);
 	}
 
+	@Override
+	public Double getTotalExpensesByUser(User user) {
+		return expanseRepository.findAmountByUser(user);
+	}
+
 	
 	
 

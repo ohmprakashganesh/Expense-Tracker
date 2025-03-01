@@ -1,7 +1,13 @@
 package internship.intern.DTO2;
 
+import lombok.Data;
+
+@Data
 public class CompareDTO {
     Double budget;
-    Double expanses;
+    Double expense;
+    Double remaining;
+    Double overUsed;
+    String equall;
     
 }

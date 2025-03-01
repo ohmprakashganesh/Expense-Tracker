@@ -6,6 +6,7 @@ import internship.intern.DTO2.ExpanseSummeryDTO;
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Category;
 import internship.intern.entity.Expanse;
+import internship.intern.entity.User;
 
 public interface ExpanseService {
 
@@ -31,10 +32,7 @@ public interface ExpanseService {
 
     ExpanseSummeryDTO getSummery();
 	
-	// List<CategoryExpenseDTO> getExpensesByCategory();
-
-	// List<MonthlyExpenseDTO> getMonthlyExpenseReport();
-
+     Double getTotalExpensesByUser(User user);
 
 	
 	Expanse updateExpanse(Long id, ExpanseDTO expanseDTO);

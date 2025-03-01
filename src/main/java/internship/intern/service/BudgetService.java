@@ -4,6 +4,7 @@ import java.util.List;
 
 import internship.intern.dto.BudgetDTO;
 import internship.intern.entity.Budget;
+import internship.intern.entity.User;
 
 public interface BudgetService {
 
@@ -12,5 +13,6 @@ public interface BudgetService {
      List<Budget> findBudgets();
      void deleteBudget(Long id);
      Double getTotalBudget();
+    Double getTotalBudgetByUser(User user);
      Budget  updateBudget(Long id, BudgetDTO budgetDTO);
 }
