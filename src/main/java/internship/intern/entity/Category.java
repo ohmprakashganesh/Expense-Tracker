@@ -3,6 +3,7 @@ package internship.intern.entity;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -29,13 +30,11 @@ public class Category {
     private User user;
 
     @OneToOne(mappedBy = "category",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Budget budget;
 
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Expanse> expanses;
     
-
-
-
 }

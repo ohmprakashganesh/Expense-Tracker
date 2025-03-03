@@ -40,7 +40,6 @@ public class Budget {
      private User user;
 
      @OneToOne  
-     @JsonIgnore
      @JoinColumn(name = "category_id", nullable = false, unique = true )
      private Category category;
 
