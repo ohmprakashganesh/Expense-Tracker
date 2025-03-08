@@ -6,6 +6,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -73,12 +75,11 @@ public class ExpanseServiceImpl implements ExpanseService {
 		return expanseRepository.save(expanse);
 	}
 	public User getUser() {
-		Optional<User> optional = userRepository.findById(2L);
-		if (optional.isPresent()) {
-			return optional.get();
-		} else {
-			throw new EntityNotFoundException("User not found for the given ID expanse table");
-		}
+		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
+		 Optional<User> user=userRepository.findByEmail(authentication.getName());
+		 return user.get();
+		
+		
 	}
 
 	public Category getCategory() {

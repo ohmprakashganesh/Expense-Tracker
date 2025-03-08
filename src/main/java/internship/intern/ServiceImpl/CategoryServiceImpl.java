@@ -1,11 +1,15 @@
 package internship.intern.ServiceImpl;
 
 
+import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import internship.intern.dto.BudgetDTO;
@@ -20,50 +24,56 @@ import internship.intern.repository.CategoryRepository;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-     private final UserRepository userRepository;
-     
-     private final BudgetRepository budgetRepository;
-     private final CategoryRepository categoryRepository;
-
-
+  private final BudgetRepository budgetRepository;
+  private final CategoryRepository categoryRepository;
+  private final UserRepository userRepository;
+    
+  
     public Category postCategory(CategoryDTO categoryDTO, BudgetDTO budgetDTO){
         return saveOrUpdateCategory(new Category(), categoryDTO , budgetDTO);
     }
 
+
     public Category saveOrUpdateCategory(Category category, CategoryDTO categoryDTO , BudgetDTO budgetDTO){
+
+       Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+       String email=authentication.getName();
+       Optional<User>opt = userRepository.findByEmail(email);
+      
+
+      
+
     category.setName(categoryDTO.getName());
+    category.setUser(opt.get());
 
     System.out.println("name is "+categoryDTO.getName());
-
-       category.setUser(getUser());
        Category obj = categoryRepository.save(category);
-      getBudget(budgetDTO, new Budget(), obj);
-       
+      getBudget(budgetDTO, new Budget(), obj , opt.get());
       return categoryRepository.findByName(category.getName());
 
 
     }
 
-    public User getUser(){
-      Optional <User> optional= userRepository.findById(2L);
-      if(optional.isPresent()){
-          return optional.get();
-      }else{
-          throw new  EntityNotFoundException("user is not found");
-      }
-   }
-  public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category) {
+  //   public User getUser(){
+  //     Optional <User> optional= userRepository.findById(2L);
+  //     if(optional.isPresent()){
+  //         return optional.get();
+  //     }else{
+  //         throw new  EntityNotFoundException("user is not found");
+  //     }
+  //  }
+  public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category, User user) {
        budget.setAmount(budgetDTO.getAmount());
        budget.setStartDate(budgetDTO.getStartDate());
        budget.setEndDate(budgetDTO.getEndDate());
-       budget.setUser(getUser());
+       budget.setUser(user);
        budget.setCategory(category);
     return budgetRepository.save(budget);
 	}

@@ -7,7 +7,7 @@ import internship.intern.entity.User;
 
 public interface UserServices {
 
-    User postUser(UserDTO userDTO );
+    // User postUser(UserDTO userDTO );
 
     User getUser(Long id);
 

@@ -46,24 +46,49 @@ public class CategoryController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getCategories(){
-      return ResponseEntity.ok(categoryService.allCategories());
+      try{
+        return ResponseEntity.ok(categoryService.allCategories());
+      }catch(Exception ex){
+        return ResponseEntity.ok("not data exist");
+      }
     }
 
     @GetMapping("/single/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id){
-    return ResponseEntity.ok(categoryService.getCategory(id));
+      try{
+        return ResponseEntity.ok(categoryService.getCategory(id));
+      }catch(Exception ex){
+        return ResponseEntity.ok("not data exist"+id);
+      }
+
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id){
-      categoryService.deleteCategory(id);
-      return ResponseEntity.ok("successfully deleted ");
+      try{
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok("successfully deleted ");
+            }catch(Exception ex){
+        return ResponseEntity.ok("not data exist"+id);
+      }
+     
     }
     @PostMapping("update/{id}")
     public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO, BudgetDTO budgetDTO){
-    return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO , budgetDTO));
+
+      try{
+        return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO , budgetDTO));
+            }catch(Exception ex){
+        return ResponseEntity.ok("not data exist"+id);
+      }
+
     }
      @GetMapping("/name/{name}")
-     public Category getMethodName(@PathVariable String name) {
-     return categoryService.getCategoryByName(name);
+     public ResponseEntity< Category> getMethodName(@PathVariable String name) {
+      try{
+        return ResponseEntity.ok( categoryService.getCategoryByName(name));
+      }catch(Exception ex){
+        return ResponseEntity.notFound().build();
+      }
+
 }
 }

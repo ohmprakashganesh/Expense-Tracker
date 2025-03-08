@@ -51,18 +51,35 @@ private final  BudgetService budgetService;
 
    @GetMapping("/all")
    public ResponseEntity<?> getAllBudgets() {
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(budgetService.findBudgets());
+      try{
+         return ResponseEntity.status(HttpStatus.ACCEPTED).body(budgetService.findBudgets());
+
+      }catch(Exception ex){
+          return ResponseEntity.ok("no data found");
+      }
    }
    
    @PostMapping("/update/{bid}")
    public ResponseEntity<?> postMethodName(@PathVariable Long bid,  @RequestBody BudgetDTO entity) {
-    return ResponseEntity.status(HttpStatus.OK).body(budgetService.updateBudget(bid, entity));
+      try{
+         return ResponseEntity.status(HttpStatus.OK).body(budgetService.updateBudget(bid, entity));
+
+      }catch(Exception ex){
+         return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.BAD_REQUEST);
+
+      }
    }
 
    @DeleteMapping("/delete/{bid}")
    public  ResponseEntity<?> deleteBudgetHere(@PathVariable Long bid){ 
-    budgetService.deleteBudget(bid);
-       return ResponseEntity.ok("successfully deleted");
+
+      try{
+         budgetService.deleteBudget(bid);
+         return ResponseEntity.ok("successfully deleted");
+      }catch(Exception ex){
+         return ResponseEntity.ok("no existing user woth "+bid);
+      }
+  
    }
 
 

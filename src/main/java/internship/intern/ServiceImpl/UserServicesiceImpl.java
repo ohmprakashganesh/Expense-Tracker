@@ -28,10 +28,10 @@ public class UserServicesiceImpl implements UserServices{
 
 
 
-    public User postUser(UserDTO userDTO ){
-        return  saveUpdateUser(new User(), userDTO);
+    // public User postUser(UserDTO userDTO ){
+    //     return  saveUpdateUser(new User(), userDTO);
 
-    }
+    // }
 
     public User saveUpdateUser(User user, UserDTO userDTO){
         user.setName(userDTO.getName());

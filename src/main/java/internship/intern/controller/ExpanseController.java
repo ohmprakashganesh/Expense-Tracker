@@ -50,7 +50,12 @@ public class ExpanseController {
 
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllExpenses(){
-		return ResponseEntity.ok(expanseService.getAllExpenses());
+		try{
+			return ResponseEntity.ok(expanseService.getAllExpenses());
+		}catch(Exception ex){
+			return ResponseEntity.notFound().build();
+
+		}
 
 	}
 

@@ -1,13 +1,9 @@
 package internship.intern.entity;
 
 import java.util.Date;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
@@ -24,12 +21,15 @@ public class Budget {
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Id
     private Long bid;
-    @NotEmpty
+
+    @NotNull
     private  Double amount;
-    @NotEmpty
+
+    @NotNull(message = "please insert date")
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
-    @NotEmpty
+
+    @NotNull(message = "please insert date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 

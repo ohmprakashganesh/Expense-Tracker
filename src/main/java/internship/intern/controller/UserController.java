@@ -30,16 +30,16 @@ public class UserController {
 
     private final UserServices userServices;
 
-    @PostMapping
-    public ResponseEntity<?> postUserMethod(@RequestBody UserDTO userDTO) {
-    System.out.println( "this is obj"+userDTO + "data recived are ");
-        User user= userServices.postUser(userDTO);
-        if(user !=null){
-            return ResponseEntity.status(HttpStatus.OK).body(user);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
+    // @PostMapping
+    // public ResponseEntity<?> postUserMethod(@RequestBody UserDTO userDTO) {
+    // System.out.println( "this is obj"+userDTO + "data recived are ");
+    //     User user= userServices.postUser(userDTO);
+    //     if(user !=null){
+    //         return ResponseEntity.status(HttpStatus.OK).body(user);
+    //     }else{
+    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    //     }
+    // }
 
     @GetMapping
     public ResponseEntity<?>  getAllUsers() {

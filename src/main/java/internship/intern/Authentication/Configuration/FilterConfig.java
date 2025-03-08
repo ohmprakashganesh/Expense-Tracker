@@ -1,6 +1,5 @@
 package internship.intern.Authentication.Configuration;
 
-import java.nio.file.DirectoryStream.Filter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +33,7 @@ public class FilterConfig {
        return http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth-> auth
-        .requestMatchers("/user/**","/budget/**", "/category/**", "/expense/**")
+        .requestMatchers("/auth/register","/auth/login")
         .permitAll()
         .anyRequest()
         .authenticated()

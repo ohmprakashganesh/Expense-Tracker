@@ -21,14 +21,8 @@ public interface ExpanseService {
     Double getTotalExpenses();
 
 	Category getCategoryByName(String categoryName);
-    
 	
-
 	List<Expanse> expByCategory(String name);
-
-
-
-
 
     ExpanseSummeryDTO getSummery();
 	
