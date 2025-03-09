@@ -23,10 +23,11 @@ public class authServiceImpl  implements AuthService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final RefreshTokenImpl refreshTokenImpl;
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public User register(RegisterRequest req) {
+    public AuthResponse register(RegisterRequest req) {
         User user = new User();
         user.setName(req.getName());
         user.setEmail(req.getEmail());
@@ -38,8 +39,16 @@ public class authServiceImpl  implements AuthService{
 
         User saved= userRepository.save(user);
         var accessToken= jwtService.generateToken(saved);
-        System.out.println(accessToken);
-        return saved;  
+        var refreshToken= refreshTokenImpl.createRefreshToken(saved.getEmail());
+
+
+         return AuthResponse.builder()
+         .accessToken(accessToken)
+         .refreshToken(refreshToken.getRefreshToken())
+         .name(saved.getName())
+         .email(saved.getEmail())
+         .build();
+       
     }
 
     @Override

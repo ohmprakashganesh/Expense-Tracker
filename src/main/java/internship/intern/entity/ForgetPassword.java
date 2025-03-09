@@ -19,6 +19,7 @@ public class ForgetPassword {
     private Long fid;
     private Date expirationTime;
     private int  otp;
+    
     @OneToOne
     private User user;
     
