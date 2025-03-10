@@ -100,7 +100,7 @@ public ResponseEntity<ExpanseSummeryDTO> summeryMethod() {
     Optional<User> optional = userRepository.findById(2L);
 		if (optional.isPresent()) {
 			 
-            List <CategoryDTO> categoryDTOs= categoryService.categoryByUser(optional.get());
+            List <CategoryDTO> categoryDTOs= categoryService.categoryByUser();
            Double amount= expanseService.getTotalExpenses();
             expanseSummeryDTO.setCategoryDTOs(categoryDTOs); 
             expanseSummeryDTO.setTotalExpenses(amount);

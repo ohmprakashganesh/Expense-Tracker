@@ -30,13 +30,7 @@ public class CategoryController {
     public ResponseEntity<?> postAllCategory(@RequestBody CategoryDTO categoryDTO ){
         System.out.println("Received CategoryDTO: " + categoryDTO);
 
-        BudgetDTO budgetDTO=new BudgetDTO();
-
-        budgetDTO.setAmount(categoryDTO.getAmount());
-        budgetDTO.setStartDate(categoryDTO.getStartDate());
-        budgetDTO.setEndDate(categoryDTO.getEndDate());
-        
-        Category category = categoryService.postCategory(categoryDTO, budgetDTO);
+        Category category = categoryService.postCategory(categoryDTO);
         if (category != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body( category);
         } else {
@@ -44,14 +38,24 @@ public class CategoryController {
         }
     }
 
+    // @GetMapping("/all")
+    // public ResponseEntity<?> getCategories(){
+    //   try{
+    //     return ResponseEntity.ok(categoryService.allCategories());
+    //   }catch(Exception ex){
+    //     return ResponseEntity.ok("not data exist");
+    //   }
+    // }
+
     @GetMapping("/all")
-    public ResponseEntity<?> getCategories(){
+    public ResponseEntity<?> categoryByUser(){
       try{
         return ResponseEntity.ok(categoryService.allCategories());
       }catch(Exception ex){
         return ResponseEntity.ok("not data exist");
       }
     }
+
 
     @GetMapping("/single/{id}")
     public ResponseEntity<?> getCategory(@PathVariable Long id){
@@ -76,7 +80,7 @@ public class CategoryController {
     public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO, BudgetDTO budgetDTO){
 
       try{
-        return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO , budgetDTO));
+        return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO));
             }catch(Exception ex){
         return ResponseEntity.ok("not data exist"+id);
       }

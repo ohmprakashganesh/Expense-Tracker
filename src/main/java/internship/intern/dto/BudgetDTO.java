@@ -12,8 +12,10 @@ import lombok.Data;
 public class BudgetDTO {
     
     private  Double amount;
+
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+    
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     

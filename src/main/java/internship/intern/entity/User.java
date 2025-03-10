@@ -63,6 +63,7 @@ public class User implements UserDetails {
     private List<Category> categories=new ArrayList<>();
 
     @OneToOne(mappedBy = "user")
+    @JsonIgnore
     private RefreshToken refreshToken;
 
 

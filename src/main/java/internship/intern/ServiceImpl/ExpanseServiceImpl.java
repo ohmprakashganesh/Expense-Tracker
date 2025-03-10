@@ -37,6 +37,14 @@ public class ExpanseServiceImpl implements ExpanseService {
 	private final CategoryRepository categoryRepository;
 	private final UserRepository userRepository;
 
+	public User getLoggedUser(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String email=authentication.getName();
+        Optional<User>opt = userRepository.findByEmail(email);
+        return opt.get();
+    }
+
+
 	@Override
 	public Expanse getExpenseById(Long id) {
 		Optional<Expanse> optionalExpanse= expanseRepository.findById(id);
@@ -68,22 +76,14 @@ public class ExpanseServiceImpl implements ExpanseService {
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription()); 
-
-		 expanse.setUser(getUser());
+		 expanse.setUser(getLoggedUser());
 		 expanse.setCategory(getCategory());
-
 		return expanseRepository.save(expanse);
 	}
-	public User getUser() {
-		Authentication authentication=SecurityContextHolder.getContext().getAuthentication();
-		 Optional<User> user=userRepository.findByEmail(authentication.getName());
-		 return user.get();
-		
-		
-	}
+
 
 	public Category getCategory() {
-		Optional<Category> optional = Optional.of(categoryRepository.findByName("shoes"));
+		Optional<Category> optional = categoryRepository.findById(2L);
 		if (optional.isPresent()) {
 			return optional.get();
 		} else {
@@ -91,6 +91,7 @@ public class ExpanseServiceImpl implements ExpanseService {
 		}
 	}
 	
+
 	public Budget getBudget() {
 		Optional<Budget> optional = budgetRepository.findById(36L);
 		if (optional.isPresent()) {
@@ -103,7 +104,7 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 
 	public List<Expanse> getAllExpenses(){
-		return expanseRepository.findAll().stream()
+		return expanseRepository.findByUser(getLoggedUser()).stream()
 		.sorted(Comparator.comparing(Expanse::getDate).reversed())
 		.collect(Collectors.toList());
 	}

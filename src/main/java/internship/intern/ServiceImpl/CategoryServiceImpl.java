@@ -35,40 +35,28 @@ public class CategoryServiceImpl implements CategoryService {
   private final CategoryRepository categoryRepository;
   private final UserRepository userRepository;
     
+
+  public User getLoggedUser(){
+    Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+    String email=authentication.getName();
+    Optional<User>opt = userRepository.findByEmail(email);
+    return opt.get();
+}
+
   
-    public Category postCategory(CategoryDTO categoryDTO, BudgetDTO budgetDTO){
-        return saveOrUpdateCategory(new Category(), categoryDTO , budgetDTO);
+    public Category postCategory(CategoryDTO categoryDTO){
+        return saveOrUpdateCategory(new Category(), categoryDTO);
     }
 
-
-    public Category saveOrUpdateCategory(Category category, CategoryDTO categoryDTO , BudgetDTO budgetDTO){
-
-       Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-       String email=authentication.getName();
-       Optional<User>opt = userRepository.findByEmail(email);
-      
-
-      
-
+    public Category saveOrUpdateCategory(Category category, CategoryDTO categoryDTO){
     category.setName(categoryDTO.getName());
-    category.setUser(opt.get());
-
-    System.out.println("name is "+categoryDTO.getName());
+    category.setUser(getLoggedUser());
        Category obj = categoryRepository.save(category);
-      getBudget(budgetDTO, new Budget(), obj , opt.get());
-      return categoryRepository.findByName(category.getName());
+      return obj;
 
 
     }
 
-  //   public User getUser(){
-  //     Optional <User> optional= userRepository.findById(2L);
-  //     if(optional.isPresent()){
-  //         return optional.get();
-  //     }else{
-  //         throw new  EntityNotFoundException("user is not found");
-  //     }
-  //  }
   public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category, User user) {
        budget.setAmount(budgetDTO.getAmount());
        budget.setStartDate(budgetDTO.getStartDate());
@@ -81,17 +69,14 @@ public class CategoryServiceImpl implements CategoryService {
     categoryRepository.deleteById(id);
     System.out.println("deleted successfully");
   }
-  public List<Category> allCategories(){
-    return categoryRepository.findAll().stream()
-    .collect(Collectors.toList());
-  }
+
+
+
     
-  public Category updateCategory(Long id, CategoryDTO categoryDTO, BudgetDTO budgetDTO){
+  public Category updateCategory(Long id, CategoryDTO categoryDTO){
   Optional <Category> optional=  categoryRepository.findById(id);
   if(optional.isPresent()){
-    return saveOrUpdateCategory(optional.get(), categoryDTO,budgetDTO);
-
-
+    return saveOrUpdateCategory(optional.get(),categoryDTO );
   }else{
     throw new  EntityNotFoundException("expanse is not present with ihe id "+ id);
   }
@@ -111,9 +96,16 @@ public class CategoryServiceImpl implements CategoryService {
     throw new UnsupportedOperationException("Unimplemented method 'getCategoryByName'");
   }
 
+
+  public List<Category> allCategories(){
+    return categoryRepository.findAll().stream()
+    .collect(Collectors.toList());
+  }
+
+
   @Override
-  public List<CategoryDTO> categoryByUser(User user) {
-     List<Category> categories= categoryRepository.findByUser(user);
+  public List<CategoryDTO> categoryByUser() {
+     List<Category> categories= categoryRepository.findByUser(getLoggedUser());
      List<CategoryDTO> categoryDTOs=new ArrayList<>();
 
      //loop to convert category to category dto
@@ -123,7 +115,7 @@ public class CategoryServiceImpl implements CategoryService {
          dto.setAmount(category.getBudget().getAmount());
          dto.setEndDate(category.getBudget().getEndDate());
          dto.setStartDate(category.getBudget().getStartDate());
-         //loop to convert expanse dto to expanse dto 
+         //loop to convert expanse dto to expanse dto
          List<ExpanseDTO> expanseDTOs=new ArrayList<>();
          for(Expanse expanse: category.getExpanses()){
           ExpanseDTO obj= new ExpanseDTO();
@@ -141,5 +133,6 @@ public class CategoryServiceImpl implements CategoryService {
       
 
   }
+
 }
  

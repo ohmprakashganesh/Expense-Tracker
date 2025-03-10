@@ -29,16 +29,16 @@ public class BudgetController {
 
 private final  BudgetService budgetService;
 
-// @PostMapping
-//    public  ResponseEntity<?> postTheBudget(@RequestBody BudgetDTO budgetDTO){
-//     System.out.println(budgetDTO.toString());
-//     Budget budget= budgetService.postBudget(budgetDTO);
-//     if(budget != null){
-//         return ResponseEntity.status(HttpStatus.ACCEPTED).body(budget);
-//     }else{
-//         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("unable to post the form data ");
-//     }
-//    }
+@PostMapping
+   public  ResponseEntity<?> postTheBudget(@RequestBody BudgetDTO budgetDTO){
+    System.out.println(budgetDTO.toString());
+    Budget budget= budgetService.postBudget(budgetDTO);
+    if(budget != null){
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(budget);
+    }else{
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("unable to post the form data ");
+    }
+   }
 
 
    @GetMapping("/single/{bid}")

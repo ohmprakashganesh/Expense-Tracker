@@ -33,7 +33,9 @@ public class FilterConfig {
        return http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth-> auth
-        .requestMatchers("/auth/register","/auth/login")
+        .requestMatchers("/auth/register","/auth/login","/budget/**","/v3/api-docs/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html" )
         .permitAll()
         .anyRequest()
         .authenticated()

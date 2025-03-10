@@ -20,6 +20,8 @@ public interface ExpanseRepository extends JpaRepository<Expanse, Long> {
      
     List<Expanse>  findByCategoryName(String name);
 
+    List<Expanse> findByUser(User user);
+
     @Query("SELECT SUM(e.amount) FROM Expanse e")
     Double getTotalExpenses();
 

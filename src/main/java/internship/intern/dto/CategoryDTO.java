@@ -15,6 +15,7 @@ public class CategoryDTO {
     @NotNull(message = "Name cannot be null")
     
     private String name;
+    
     private Double amount;
 
      @JsonFormat(pattern = "yyyy-MM-dd")

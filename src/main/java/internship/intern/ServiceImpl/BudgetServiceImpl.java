@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import internship.intern.dto.BudgetDTO;
@@ -32,38 +34,40 @@ public class BudgetServiceImpl implements BudgetService {
     private final UserRepository userRepository;
 
 
-    //  public Budget postBudget(BudgetDTO budgetDTO){
-    //     log.info("Received BudgetDTO: {}", budgetDTO);
-    //   return postOrUpdateBudget(new Budget(), budgetDTO);
+     public Budget postBudget(BudgetDTO budgetDTO){
+        log.info("Received BudgetDTO: {}", budgetDTO);
+      return postOrUpdateBudget(new Budget(), budgetDTO);
       
-    //  }
+     }
     
-   
-    //  public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
+    public User getLoggedUser(){
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String email=authentication.getName();
+        Optional<User>opt = userRepository.findByEmail(email);
+        return opt.get();
+    }
+
+
+     public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
+
+       Optional<Category> category = categoryRepository.findById(2L);
         
-    //    Optional<Category> category = categoryRepository.findById(2L);
+      
         
 
-    //     System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
-    //     System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
-    //     System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
+        // System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
+        // System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
+        // System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
     
-    //     // Map fields
-    //     budget.setAmount(budgetDTO.getAmount());
-    //     budget.setEndDate(budgetDTO.getEndDate());
-    //     budget.setStartDate(budgetDTO.getStartDate());
-    //     return  budgetRepository.save(budget);  
-    //  }
-    //  public User getUser(){
-    //     Optional <User> optional= userRepository.findById(2L);
-    //     if(optional.isPresent()){
-    //         return optional.get();
-    //     }else{
-    //         throw new  EntityNotFoundException("user is not found");
-    //     }
-    //  }
+        // Map fields
+        budget.setAmount(budgetDTO.getAmount());
+        budget.setEndDate(budgetDTO.getEndDate());
+        budget.setStartDate(budgetDTO.getStartDate());
+        budget.setCategory(category.get());
+        budget.setUser(getLoggedUser());
+        return  budgetRepository.save(budget);  
+     }
 
-    
      public Budget findBudget(Long id){
         Optional <Budget> optional= budgetRepository.findById(id);
         if(optional.isPresent()){
@@ -75,9 +79,10 @@ public class BudgetServiceImpl implements BudgetService {
 
   public  List<Budget> findBudgets(){
     List<Budget> list= new ArrayList<>();
-     list=budgetRepository.findAll();
+     list=budgetRepository.findByUser(getLoggedUser());
      return list.stream().collect(Collectors.toList());
 
+     
   }
    public  void deleteBudget(Long id){
      budgetRepository.deleteById(id);
@@ -86,7 +91,6 @@ public class BudgetServiceImpl implements BudgetService {
 
 
     public Budget  updateBudget(Long id, BudgetDTO budgetDTO){
-   
     Optional <Budget> optional= budgetRepository.findById(id);
     if(optional.isPresent()){
         Budget budget= optional.get();
@@ -99,15 +103,11 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     @Override
-    public Double getTotalBudget() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTotalBudget'");
-    }
-
-    @Override
     public Double getTotalBudgetByUser(User user) {
         return budgetRepository.findAmountByUser(user);
     }
+
+  
 
 
 

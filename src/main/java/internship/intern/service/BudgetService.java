@@ -8,11 +8,10 @@ import internship.intern.entity.User;
 
 public interface BudgetService {
 
-     // Budget postBudget(BudgetDTO budget);
+     Budget postBudget(BudgetDTO budget);
      Budget findBudget(Long id);
      List<Budget> findBudgets();
      void deleteBudget(Long id);
-     Double getTotalBudget();
     Double getTotalBudgetByUser(User user);
      Budget  updateBudget(Long id, BudgetDTO budgetDTO);
 }
