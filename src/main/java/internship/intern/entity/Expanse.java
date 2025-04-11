@@ -37,7 +37,7 @@ public class Expanse {
      private User user;
 
    @ManyToOne
-   @JsonIgnore
+//    @JsonIgnore
    @JoinColumn(name ="category_id",nullable = false)
    private Category category;
 }

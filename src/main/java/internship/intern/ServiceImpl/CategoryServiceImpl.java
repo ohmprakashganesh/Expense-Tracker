@@ -1,18 +1,18 @@
 package internship.intern.ServiceImpl;
 
 
-import java.lang.StackWalker.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.slf4j.LoggerFactory;
 
-import internship.intern.dto.BudgetDTO;
+
 import internship.intern.dto.CategoryDTO;
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Budget;
@@ -35,6 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
   private final CategoryRepository categoryRepository;
   private final UserRepository userRepository;
     
+  private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
   public User getLoggedUser(){
     Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
@@ -45,43 +46,73 @@ public class CategoryServiceImpl implements CategoryService {
 
   
     public Category postCategory(CategoryDTO categoryDTO){
-        return saveOrUpdateCategory(new Category(), categoryDTO);
+        return save(new Category(), categoryDTO);
     }
 
-    public Category saveOrUpdateCategory(Category category, CategoryDTO categoryDTO){
+    public Category save(Category category, CategoryDTO categoryDTO){
     category.setName(categoryDTO.getName());
+    category.setBudget(budgetGet(categoryDTO,new Budget()));
     category.setUser(getLoggedUser());
-       Category obj = categoryRepository.save(category);
-      return obj;
-
-
+     Category obj = categoryRepository.save(category);
+    return obj;
+    }
+    public Budget budgetGet(CategoryDTO categoryDTO, Budget budget){
+      budget.setUser(getLoggedUser());
+      budget.setAmount(categoryDTO.getAmount());
+      budget.setStartDate(categoryDTO.getStartDate());
+       return budgetRepository.save(budget);
     }
 
-  public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category, User user) {
-       budget.setAmount(budgetDTO.getAmount());
-       budget.setStartDate(budgetDTO.getStartDate());
-       budget.setEndDate(budgetDTO.getEndDate());
-       budget.setUser(user);
-       budget.setCategory(category);
-    return budgetRepository.save(budget);
-	}
-  public void deleteCategory(Long id){
-    categoryRepository.deleteById(id);
-    System.out.println("deleted successfully");
-  }
+  // public Budget getBudget(BudgetDTO budgetDTO, Budget budget, Category category, User user) {
+  //      budget.setAmount(budgetDTO.getAmount());
+  //      budget.setStartDate(budgetDTO.getStartDate());
+  //      budget.setUser(user);
+  //      budget.setCategory(category);
+  //   return budgetRepository.save(budget);
+	// }
+
+
+  // public void deleteCategory(Long id){
+  //  Optional< Category> category= categoryRepository.findById(id);
+  //  if(category.isPresent()){
+  //   categoryRepository.deleteById(id);
+  //   System.out.println("deleted successfully");
+
+  //  }
+  
+  // }
 
 
 
-    
   public Category updateCategory(Long id, CategoryDTO categoryDTO){
   Optional <Category> optional=  categoryRepository.findById(id);
+     
+
   if(optional.isPresent()){
-    return saveOrUpdateCategory(optional.get(),categoryDTO );
+    Category category= optional.get();
+    category.setName(categoryDTO.getName());
+
+    //update the amount of budget object with this category
+    Budget budget=category.getBudget();
+    if(budget != null){
+      budget.setAmount(categoryDTO.getAmount());
+    }
+     
+   
+    return categoryRepository.save(category);
   }else{
     throw new  EntityNotFoundException("expanse is not present with ihe id "+ id);
   }
    
   }
+
+  // public Budget updateBudget(CategoryDTO dto){
+  //   Category.
+  //   Budget budget= dto.getBudget()
+  // budget.setAmount(dto.getAmount());
+  // budget.setStartDate(dto.getStartDate());
+  // return budgetRepository.save(budget);
+  // }
 
   public Category getCategory(Long id){
     Optional <Category> option= categoryRepository.findById(id);
@@ -91,10 +122,23 @@ public class CategoryServiceImpl implements CategoryService {
       throw new EntityNotFoundException("no data found");
     }
   }
+
   @Override
   public Category getCategoryByName(String name) {
-    throw new UnsupportedOperationException("Unimplemented method 'getCategoryByName'");
+    System.out.println("print test fo find by cateogry name ");
+      return categoryRepository.findByName(name)
+          .map(existing -> {
+              Category cat = new Category();
+              cat.setCid(existing.getCid());
+              cat.setName(existing.getName());
+              cat.setBudget(existing.getBudget());
+              cat.setExpanses(existing.getExpanses());
+              cat.setUser(getLoggedUser());
+              return cat;
+          })
+          .orElseThrow(() -> new EntityNotFoundException("Category not found: " + name));
   }
+  
 
 
   public List<Category> allCategories(){
@@ -113,7 +157,6 @@ public class CategoryServiceImpl implements CategoryService {
          CategoryDTO dto= new CategoryDTO();
          dto.setName(category.getName());
          dto.setAmount(category.getBudget().getAmount());
-         dto.setEndDate(category.getBudget().getEndDate());
          dto.setStartDate(category.getBudget().getStartDate());
          //loop to convert expanse dto to expanse dto
          List<ExpanseDTO> expanseDTOs=new ArrayList<>();

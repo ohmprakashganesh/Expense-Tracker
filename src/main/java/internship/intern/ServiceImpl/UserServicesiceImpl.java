@@ -35,11 +35,11 @@ public class UserServicesiceImpl implements UserServices{
 
     public User saveUpdateUser(User user, UserDTO userDTO){
         user.setName(userDTO.getName());
-        user.setAddress(userDTO.getAddress());
+        // user.setAddress(userDTO.getAddress());
         user.setEmail(userDTO.getEmail());
-        user.setImage(userDTO.getImage());
+        // user.setImage(userDTO.getImage());
         // user.setNumber(userDTO.getNumber());
-        user.setNumber(938447547);
+        // user.setNumber(938447547);
 
         user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
         user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
@@ -72,8 +72,6 @@ public class UserServicesiceImpl implements UserServices{
         return budgetDTOs.stream().map(dto->{
             Budget budget=  new Budget();
             budget.setAmount(dto.getAmount());
-            budget.setEndDate(dto.getEndDate());
-            budget.setEndDate(dto.getEndDate());
             budget.setUser(user);
             return budget;
         }).collect(Collectors.toList());

@@ -1,5 +1,7 @@
 package internship.intern.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import internship.intern.dto.BudgetDTO;
 import internship.intern.dto.CategoryDTO;
 import internship.intern.entity.Category;
+import internship.intern.repository.CategoryRepository;
 import internship.intern.service.CategoryService;
 import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +28,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
+
+
+    @GetMapping("/byName/{name}")
+    public ResponseEntity< Category> getByName(@PathVariable String name) {
+     try{
+       return ResponseEntity.ok( categoryService.getCategoryByName(name));
+     }catch(Exception ex){
+       return ResponseEntity.notFound().build();
+     }
+
+}
+
 
     @PostMapping
     public ResponseEntity<?> postAllCategory(@RequestBody CategoryDTO categoryDTO ){
         System.out.println("Received CategoryDTO: " + categoryDTO);
+
 
         Category category = categoryService.postCategory(categoryDTO);
         if (category != null) {
@@ -66,19 +83,24 @@ public class CategoryController {
       }
 
     }
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id){
+    @DeleteMapping("/delete/{cid}")
+    public ResponseEntity<String> deleteTheCategory(@PathVariable long cid){
+
       try{
-        categoryService.deleteCategory(id);
+        Optional<Category> category=categoryRepository.findById(cid);
+        if(category.isPresent()){
+          System.out.println(category.get().toString());
+          // categoryRepository.deleteById(cid);
+        }
         return ResponseEntity.ok("successfully deleted ");
+
             }catch(Exception ex){
-        return ResponseEntity.ok("not data exist"+id);
+        return ResponseEntity.ok("not data exist"+cid);
       }
      
     }
     @PostMapping("update/{id}")
-    public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO, BudgetDTO budgetDTO){
-
+    public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
       try{
         return ResponseEntity.ok(categoryService.updateCategory(id , categoryDTO));
             }catch(Exception ex){
@@ -86,13 +108,5 @@ public class CategoryController {
       }
 
     }
-     @GetMapping("/name/{name}")
-     public ResponseEntity< Category> getMethodName(@PathVariable String name) {
-      try{
-        return ResponseEntity.ok( categoryService.getCategoryByName(name));
-      }catch(Exception ex){
-        return ResponseEntity.notFound().build();
-      }
-
-}
+  
 }

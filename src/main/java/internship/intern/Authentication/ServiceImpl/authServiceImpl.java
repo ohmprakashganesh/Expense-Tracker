@@ -32,19 +32,19 @@ public class authServiceImpl  implements AuthService{
         user.setName(req.getName());
         user.setEmail(req.getEmail());
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        user.setAddress(req.getAddress());
-        user.setNumber(req.getNumber());
+        // user.setAddress(req.getAddress());
+        // user.setNumber(req.getNumber());
         user.setRole(UserRole.USER);
-        user.setImage(req.getImage());
+        // user.setImage(req.getImage());
 
         User saved= userRepository.save(user);
-        var accessToken= jwtService.generateToken(saved);
-        var refreshToken= refreshTokenImpl.createRefreshToken(saved.getEmail());
+        // var accessToken= jwtService.generateToken(saved);
+        // var refreshToken= refreshTokenImpl.createRefreshToken(saved.getEmail());
 
 
          return AuthResponse.builder()
-         .accessToken(accessToken)
-         .refreshToken(refreshToken.getRefreshToken())
+        //  .accessToken(accessToken)
+        //  .refreshToken(refreshToken.getRefreshToken())
          .name(saved.getName())
          .email(saved.getEmail())
          .build();

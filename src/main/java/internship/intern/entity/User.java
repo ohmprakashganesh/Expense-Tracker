@@ -36,9 +36,9 @@ public class User implements UserDetails {
     private  String name;
     private String email;
     private String password;
-    private String  image;
-    private int number;
-    private String address;
+    // private String  image;
+    // private int number;
+    // private String address;
 
     
     @OneToOne(mappedBy = "user")
@@ -62,7 +62,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private List<Category> categories=new ArrayList<>();
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private RefreshToken refreshToken;
 
@@ -84,7 +84,7 @@ public class User implements UserDetails {
         return email;
 
     }
-
+    
     @Override
 	public boolean isAccountNonExpired() {
 		return true;

@@ -29,7 +29,7 @@ public class AuthController {
 
      @PostMapping("/login")
      public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest req) {
-      System.out.println("hello guys ");
+      System.out.println("this is from login method ");
         return ResponseEntity.ok( authService.login(req));
         
      }

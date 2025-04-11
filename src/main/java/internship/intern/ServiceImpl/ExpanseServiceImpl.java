@@ -5,16 +5,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import internship.intern.DTO2.CategoryExpenseDTO;
 import internship.intern.DTO2.ExpanseSummeryDTO;
-import internship.intern.DTO2.MonthlyExpenseDTO;
-import internship.intern.dto.CategoryDTO;
 import internship.intern.dto.ExpanseDTO;
 import internship.intern.entity.Budget;
 import internship.intern.entity.Category;
@@ -56,41 +50,46 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 	}
 
-	public void deleteById(Long id) {
-		 expanseRepository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("Expanse with ID " + id + " not found"));
-		expanseRepository.deleteById(id);
-	}
+
 	
 
 
 	public Expanse postExpanse(ExpanseDTO expanseDTO) {	
-		return saveUpdateExpanse(new Expanse(), expanseDTO);
-	}
-	
-
-	private Expanse saveUpdateExpanse(Expanse expanse,ExpanseDTO expanseDTO)
-	{
-		
+		Expanse expanse= new Expanse();
 		expanse.setTitle(expanseDTO.getTitle());
 		expanse.setAmount(expanseDTO.getAmount());
          expanse.setDate(expanseDTO.getDate());
          expanse.setDescription(expanseDTO.getDescription()); 
 		 expanse.setUser(getLoggedUser());
-		 expanse.setCategory(getCategory());
+		 expanse.setCategory(categoryGet(expanseDTO.getCategory()));
 		return expanseRepository.save(expanse);
 	}
+	
 
+	// private Expanse saveUpdateExpanse(Expanse expanse,ExpanseDTO expanseDTO)
+	// {
+		
+	// 	expanse.setTitle(expanseDTO.getTitle());
+	// 	expanse.setAmount(expanseDTO.getAmount());
+    //      expanse.setDate(expanseDTO.getDate());
+    //      expanse.setDescription(expanseDTO.getDescription()); 
+	// 	 expanse.setUser(getLoggedUser());
+	// 	 expanse.setCategory(categoryGet(expanseDTO.getCategory()));
+	// 	return expanseRepository.save(expanse);
+	// }
 
-	public Category getCategory() {
-		Optional<Category> optional = categoryRepository.findById(2L);
+  
+
+	public Category categoryGet(String name) {
+		Optional<Category> optional = categoryRepository.findByName(name);
 		if (optional.isPresent()) {
 			return optional.get();
 		} else {
 			throw new EntityNotFoundException("category  not found for the given ID for expanse table");
 		}
 	}
-	
+
+
 
 	public Budget getBudget() {
 		Optional<Budget> optional = budgetRepository.findById(36L);
@@ -111,13 +110,24 @@ public class ExpanseServiceImpl implements ExpanseService {
 
 	
 	public Expanse updateExpanse(Long id, ExpanseDTO expanseDTO){
+
 		Optional <Expanse> optional = expanseRepository.findById(id);
 		if(optional.isPresent()){
-			return  saveUpdateExpanse(optional.get(), expanseDTO);
+  Category category = categoryRepository.findByName(expanseDTO.getCategory())
+  .orElseThrow(() -> new EntityNotFoundException("Category not found with name " + expanseDTO.getCategory()));			
+
+			   category.setName(expanseDTO.getCategory());
+			   Expanse expanse= optional.get();
+			   expanse.setCategory(category);
+			   expanse.setAmount(expanseDTO.getAmount());
+			   expanse.setDescription(expanseDTO.getDescription());
+			   expanse.setTitle(expanseDTO.getTitle());
+			return  expanseRepository.save(expanse);
 		}else{
 			throw new  EntityNotFoundException("expanse is not present with ihe id "+ id);
 		}
 	}
+
 
 	public Double getTotalExpenses(){
 		return expanseRepository.getTotalExpenses();
@@ -143,6 +153,16 @@ public class ExpanseServiceImpl implements ExpanseService {
 	public Double getTotalExpensesByUser(User user) {
 		return expanseRepository.findAmountByUser(user);
 	}
+
+
+	@Override
+	public void deleteById(Long id) {
+		expanseRepository.findById(id)
+		.orElseThrow(() -> new EntityNotFoundException("Expanse with ID " + id + " not found"));
+	expanseRepository.deleteById(id);
+	System.out.println("deleted sucessfully"+ id);
+	}
+
 
 	
 	

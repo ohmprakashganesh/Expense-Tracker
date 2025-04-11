@@ -21,8 +21,8 @@ public class CategoryDTO {
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
+    // @JsonFormat(pattern = "yyyy-MM-dd")
+    // private Date endDate;
 
     private UserDTO user;
 

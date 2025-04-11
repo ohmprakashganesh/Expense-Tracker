@@ -71,8 +71,7 @@ private final  BudgetService budgetService;
    }
 
    @DeleteMapping("/delete/{bid}")
-   public  ResponseEntity<?> deleteBudgetHere(@PathVariable Long bid){ 
-
+   public  ResponseEntity<?> deleteBudgetHere(@PathVariable long bid){ 
       try{
          budgetService.deleteBudget(bid);
          return ResponseEntity.ok("successfully deleted");

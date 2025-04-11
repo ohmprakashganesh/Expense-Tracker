@@ -15,10 +15,7 @@ public class BudgetDTO {
 
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
-    
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
-    
+
      private UserDTO userDTO;
 
      private List<ExpanseDTO> expanseDTOs;

@@ -61,9 +61,7 @@ public class BudgetServiceImpl implements BudgetService {
     
         // Map fields
         budget.setAmount(budgetDTO.getAmount());
-        budget.setEndDate(budgetDTO.getEndDate());
         budget.setStartDate(budgetDTO.getStartDate());
-        budget.setCategory(category.get());
         budget.setUser(getLoggedUser());
         return  budgetRepository.save(budget);  
      }
@@ -105,6 +103,12 @@ public class BudgetServiceImpl implements BudgetService {
     @Override
     public Double getTotalBudgetByUser(User user) {
         return budgetRepository.findAmountByUser(user);
+    }
+
+    @Override
+    public void deleteBudget(long id) {
+       budgetRepository.deleteById(id);
+       System.out.println("deleted sucessfully ");
     }
 
   

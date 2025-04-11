@@ -32,7 +32,8 @@ public class Category {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(mappedBy = "category",cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name= "budget_id", nullable = false)
     @JsonIgnore
     private Budget budget;
 

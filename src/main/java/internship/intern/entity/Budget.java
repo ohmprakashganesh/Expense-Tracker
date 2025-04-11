@@ -3,6 +3,7 @@ package internship.intern.entity;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,17 +30,10 @@ public class Budget {
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @NotNull(message = "please insert date")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
-
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
      private User user;
 
-     @OneToOne  
-     @JoinColumn(name = "category_id", nullable = false, unique = true )
-     private Category category;
 
 
 
