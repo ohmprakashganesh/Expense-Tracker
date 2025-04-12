@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -35,10 +36,12 @@ public class Category {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name= "budget_id", nullable = false)
     @JsonIgnore
+    @ToString.Exclude
     private Budget budget;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonBackReference
+    @ToString.Exclude
     private List<Expanse> expanses;
     
 }

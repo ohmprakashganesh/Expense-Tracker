@@ -21,9 +21,11 @@ import internship.intern.entity.Expanse;
 import internship.intern.entity.User;
 import internship.intern.repository.BudgetRepository;
 import internship.intern.repository.CategoryRepository;
+import internship.intern.repository.ExpanseRepository;
 import internship.intern.repository.UserRepository;
 import internship.intern.service.CategoryService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 
@@ -34,6 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
   private final BudgetRepository budgetRepository;
   private final CategoryRepository categoryRepository;
   private final UserRepository userRepository;
+    private final ExpanseRepository expanseRepository;
     
   private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
@@ -49,6 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         return save(new Category(), categoryDTO);
     }
 
+
     public Category save(Category category, CategoryDTO categoryDTO){
     category.setName(categoryDTO.getName());
     category.setBudget(budgetGet(categoryDTO,new Budget()));
@@ -56,6 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
      Category obj = categoryRepository.save(category);
     return obj;
     }
+
     public Budget budgetGet(CategoryDTO categoryDTO, Budget budget){
       budget.setUser(getLoggedUser());
       budget.setAmount(categoryDTO.getAmount());
@@ -72,15 +77,27 @@ public class CategoryServiceImpl implements CategoryService {
 	// }
 
 
-  // public void deleteCategory(Long id){
-  //  Optional< Category> category= categoryRepository.findById(id);
-  //  if(category.isPresent()){
-  //   categoryRepository.deleteById(id);
-  //   System.out.println("deleted successfully");
-
-  //  }
+  @Transactional
+  public void deleteCategory(Long id) {
+      Optional<Category> categoryOpt = categoryRepository.findById(id);
   
-  // }
+      if (categoryOpt.isPresent()) {
+          Category category = categoryOpt.get();
+  
+          // 1. Delete all related expanses
+          expanseRepository.deleteByCategory(category);
+  
+          // 2. Delete the category (which has a cascade = ALL relation with budget)
+          categoryRepository.deleteById(1L);; // this should also delete budget
+  
+          System.out.println("Category, related expanses, and budget deleted successfully");
+      } else {
+          System.out.println("Category not found with ID: " + id);
+      }
+  }
+  
+  
+
 
 
 

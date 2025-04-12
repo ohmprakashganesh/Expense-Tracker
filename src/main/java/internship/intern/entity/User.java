@@ -24,6 +24,8 @@ import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.EqualsAndHashCode.Exclude;
 
 @Data
 @Entity
@@ -50,16 +52,19 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
+    @ToString.Exclude
     private List<Expanse> expanses=  new ArrayList<>();
     
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
+	@ToString.Exclude
     private List<Budget> budgets=new ArrayList<>();
 
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
+    @ToString.Exclude
     private List<Category> categories=new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

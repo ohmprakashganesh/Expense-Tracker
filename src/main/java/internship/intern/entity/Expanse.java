@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -32,12 +33,14 @@ public class Expanse {
 	private Double amount;
 
     @ManyToOne
+	@ToString.Exclude
 	@JsonManagedReference // Add this annotation
     @JoinColumn(name = "user_id",nullable = false)
      private User user;
 
    @ManyToOne
-//    @JsonIgnore
+   @ToString.Exclude
+   @JsonManagedReference
    @JoinColumn(name ="category_id",nullable = false)
    private Category category;
 }

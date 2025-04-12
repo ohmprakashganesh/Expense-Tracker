@@ -38,15 +38,15 @@ public class authServiceImpl  implements AuthService{
         // user.setImage(req.getImage());
 
         User saved= userRepository.save(user);
-        // var accessToken= jwtService.generateToken(saved);
+        var accessToken= jwtService.generateToken(saved);
         // var refreshToken= refreshTokenImpl.createRefreshToken(saved.getEmail());
 
 
          return AuthResponse.builder()
-        //  .accessToken(accessToken)
+         .accessToken(accessToken)
         //  .refreshToken(refreshToken.getRefreshToken())
-         .name(saved.getName())
-         .email(saved.getEmail())
+        //  .name(saved.getName())
+        //  .email(saved.getEmail())
          .build();
        
     }
@@ -67,9 +67,9 @@ public class authServiceImpl  implements AuthService{
 
         return  AuthResponse.builder()
         .accessToken(accessToken)
-        .refreshToken(accessToken)
-        .name(user.getName())
-        .email(user.getEmail())
+        // .refreshToken(accessToken)
+        // .name(user.getName())
+        // .email(user.getEmail())
         .build();   
     }
     

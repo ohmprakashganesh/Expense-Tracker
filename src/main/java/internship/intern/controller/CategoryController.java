@@ -87,11 +87,8 @@ public class CategoryController {
     public ResponseEntity<String> deleteTheCategory(@PathVariable long cid){
 
       try{
-        Optional<Category> category=categoryRepository.findById(cid);
-        if(category.isPresent()){
-          System.out.println(category.get().toString());
-          // categoryRepository.deleteById(cid);
-        }
+          categoryService.deleteCategory(cid);
+          
         return ResponseEntity.ok("successfully deleted ");
 
             }catch(Exception ex){
@@ -99,6 +96,8 @@ public class CategoryController {
       }
      
     }
+
+
     @PostMapping("update/{id}")
     public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){
       try{

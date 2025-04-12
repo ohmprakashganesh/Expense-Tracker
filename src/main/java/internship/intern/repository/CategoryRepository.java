@@ -13,6 +13,7 @@ import internship.intern.entity.User;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+     
      Optional< Category>findByName(String name);
      List<Category> findByUser(User user);
      Budget  findByBudget(Budget budget);

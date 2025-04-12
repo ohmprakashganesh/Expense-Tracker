@@ -31,6 +31,7 @@ public class JwtService {
 
 
     private Claims extractAllClaims(String token){
+        System.out.println("Token received for parsing: " + token); // ✅ Add this line
         return Jwts
         .parserBuilder()
         .setSigningKey(getSignInKey())

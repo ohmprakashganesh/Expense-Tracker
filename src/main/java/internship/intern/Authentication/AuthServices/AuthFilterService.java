@@ -39,8 +39,12 @@ public class AuthFilterService extends OncePerRequestFilter {
         String username;
 
         if(authHeader==null || !authHeader.startsWith("Bearer")){
-            filterChain.doFilter(request, response);
-            return;
+                        filterChain.doFilter(request, response);
+                        return;
+            
+
+            // throw new RuntimeException("Missing or invalid Authorization header");
+
             
         }
 

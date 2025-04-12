@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,13 @@ public class ReportController {
 
 
 
+  public User getLoggedUser(){
+    Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+    String email=authentication.getName();
+    Optional<User>opt = userRepository.findByEmail(email);
+    return opt.get();
+}
+
 
 //     GET /api/reports/total-expenses/{userId}
 // GET /api/reports/expenses-by-category/{userId}
@@ -64,7 +73,9 @@ public ResponseEntity<List<Expanse>> expensesByCategory(@PathVariable String nam
 @GetMapping("vs")
 public ResponseEntity<CompareDTO> compateBudgetAndExpense() {
     CompareDTO obj= new CompareDTO();
-    Optional<User> optional = userRepository.findById(2L);
+
+
+    Optional<User> optional = userRepository.findById(getLoggedUser().getUid());
 
     Double totalExp= expanseService.getTotalExpensesByUser(optional.get());
     Double totalBudget= budgetService.getTotalBudgetByUser(optional.get());
@@ -97,7 +108,7 @@ public ResponseEntity<ExpanseSummeryDTO> summeryMethod() {
 
 
 
-    Optional<User> optional = userRepository.findById(2L);
+    Optional<User> optional = userRepository.findById(getLoggedUser().getUid());
 		if (optional.isPresent()) {
 			 
             List <CategoryDTO> categoryDTOs= categoryService.categoryByUser();
@@ -115,18 +126,10 @@ public ResponseEntity<ExpanseSummeryDTO> summeryMethod() {
 
    @GetMapping("/totalBudget")
    public Double budgetByUser() {
-    Optional<User> optional = userRepository.findById(2L);
+    Optional<User> optional = userRepository.findById(getLoggedUser().getUid());
     Double totalBudget= budgetService.getTotalBudgetByUser(optional.get());
     return totalBudget;
    }
-   
-
-
-
-   
- 
-
-    
 }
 
 
