@@ -97,6 +97,16 @@ public class CategoryController {
      
     }
 
+    @GetMapping("/all/budgets")
+    public ResponseEntity<?> getAllBudgets() {
+       try{
+          return ResponseEntity.status(HttpStatus.ACCEPTED).body(categoryService.findBudgets());
+ 
+       }catch(Exception ex){
+           return ResponseEntity.ok("no data found");
+       }
+    }
+
 
     @PostMapping("update/{id}")
     public ResponseEntity<?>  updateCategory(@PathVariable Long id, @RequestBody CategoryDTO categoryDTO){

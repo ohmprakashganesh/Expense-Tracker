@@ -3,6 +3,7 @@ package internship.intern.service;
 import java.util.List;
 
 import internship.intern.dto.CategoryDTO;
+import internship.intern.entity.Budget;
 import internship.intern.entity.Category;
 import internship.intern.entity.User;
 
@@ -16,6 +17,9 @@ public interface CategoryService {
     List<CategoryDTO> categoryByUser();
     Category updateCategory(Long id, CategoryDTO categoryDTO);
      Double getTotalBudgetByUser(User user);
+     List<Budget> findBudgets();
+     
+   
 
     
 } 

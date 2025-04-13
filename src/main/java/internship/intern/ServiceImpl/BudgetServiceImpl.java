@@ -49,16 +49,6 @@ public class BudgetServiceImpl implements BudgetService {
 
 
      public Budget postOrUpdateBudget(Budget budget, BudgetDTO budgetDTO){
-
-       Optional<Category> category = categoryRepository.findById(2L);
-        
-      
-        
-
-        // System.out.println("BudgetDTO amount: " + budgetDTO.getAmount());
-        // System.out.println("BudgetDTO startDate: " + budgetDTO.getStartDate());
-        // System.out.println("BudgetDTO endDate: " + budgetDTO.getEndDate());
-    
         // Map fields
         budget.setAmount(budgetDTO.getAmount());
         budget.setStartDate(budgetDTO.getStartDate());
@@ -74,14 +64,7 @@ public class BudgetServiceImpl implements BudgetService {
         }
      }
 
-  public  List<Budget> findBudgets(){
-    List<Budget> list= new ArrayList<>();
-    //  list=budgetRepository.findByUser(getLoggedUser());
-    
-     return list.stream().collect(Collectors.toList());
 
-     
-  }
    public  void deleteBudget(Long id){
      budgetRepository.deleteById(id);
      System.out.println("successfully deleted  Budget of id "+id);
@@ -110,6 +93,7 @@ public class BudgetServiceImpl implements BudgetService {
        budgetRepository.deleteById(id);
        System.out.println("deleted sucessfully ");
     }
+
 
   
 

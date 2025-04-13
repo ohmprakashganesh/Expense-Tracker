@@ -95,6 +95,11 @@ public class CategoryServiceImpl implements CategoryService {
       }
   }
   
+
+  @Override
+  public List<Budget> findBudgets() {
+     return categoryRepository.findBudgetsByUser(getLoggedUser());
+  }
   
 
 
@@ -121,14 +126,6 @@ public class CategoryServiceImpl implements CategoryService {
   }
    
   }
-
-  // public Budget updateBudget(CategoryDTO dto){
-  //   Category.
-  //   Budget budget= dto.getBudget()
-  // budget.setAmount(dto.getAmount());
-  // budget.setStartDate(dto.getStartDate());
-  // return budgetRepository.save(budget);
-  // }
 
   public Category getCategory(Long id){
     Optional <Category> option= categoryRepository.findById(id);

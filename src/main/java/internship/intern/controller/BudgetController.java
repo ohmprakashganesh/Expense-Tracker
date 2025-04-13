@@ -49,15 +49,7 @@ private final  BudgetService budgetService;
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(budget);
    }
 
-   @GetMapping("/all")
-   public ResponseEntity<?> getAllBudgets() {
-      try{
-         return ResponseEntity.status(HttpStatus.ACCEPTED).body(budgetService.findBudgets());
 
-      }catch(Exception ex){
-          return ResponseEntity.ok("no data found");
-      }
-   }
    
    @PostMapping("/update/{bid}")
    public ResponseEntity<?> postMethodName(@PathVariable Long bid,  @RequestBody BudgetDTO entity) {

@@ -15,13 +15,20 @@ import internship.intern.entity.User;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+
+     @Query("SELECT c.budget FROM Category c WHERE c.user = :user")
+    List<Budget> findBudgetsByUser(@Param("user") User user);
      
      Optional< Category>findByName(String name);
-     List<Category> findByUser(User user);
-     Budget  findByBudget(Budget budget);
+
+      List<Category> findByUser(User user);
+
 
      @Query("SELECT SUM(b.amount) FROM Category c JOIN c.budget b WHERE c.user = :user")
      Double findTotalBudgetByUser(@Param("user") User user);
+
+     @Query("SELECT c.budget FROM Category c WHERE c.user = :user")
+      List<Budget> findBudgetsByUserId(@Param("user") User user);
 
      
      
