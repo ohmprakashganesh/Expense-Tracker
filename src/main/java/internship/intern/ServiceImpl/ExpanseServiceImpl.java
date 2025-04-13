@@ -149,10 +149,10 @@ public class ExpanseServiceImpl implements ExpanseService {
 		return expanseRepository.findByCategoryName(name);
 	}
 
-	@Override
-	public Double getTotalExpensesByUser(User user) {
-		return expanseRepository.findAmountByUser(user);
-	}
+	// @Override
+	// public Double getTotalExpensesByUser(User user) {
+	// 	return expanseRepository.findTotalExpanseByUser(user);
+	// }
 
 
 	@Override
@@ -162,6 +162,13 @@ public class ExpanseServiceImpl implements ExpanseService {
 	expanseRepository.deleteById(id);
 	System.out.println("deleted sucessfully"+ id);
 	}
+
+
+	@Override
+	public Double getTotalExpensesByUser(User user) {
+		return expanseRepository.findAmountByUser(user);
+	}
+
 
 
 	

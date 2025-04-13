@@ -39,7 +39,6 @@ public class ReportController {
 
     private final ExpanseService expanseService;
     private final CategoryService categoryService;
-    private final BudgetService budgetService;
     private final UserRepository userRepository;
 
 
@@ -78,24 +77,20 @@ public ResponseEntity<CompareDTO> compateBudgetAndExpense() {
     Optional<User> optional = userRepository.findById(getLoggedUser().getUid());
 
     Double totalExp= expanseService.getTotalExpensesByUser(optional.get());
-    Double totalBudget= budgetService.getTotalBudgetByUser(optional.get());
+    Double totalBudget= categoryService.getTotalBudgetByUser(optional.get());
     if(totalBudget > totalExp){
         Double remain= totalBudget-totalExp;
-         obj.setRemaining(remain);
+         obj.setResult("remaining"+" "+remain);
         
     }else if(totalBudget.equals(totalExp)){
-        obj.setEquall("Optimum used");
+        obj.setResult("equals" );
         
     }else{
         Double loss= totalExp-totalBudget;
-        obj.setOverUsed(loss);
+        obj.setResult("Expanse exceed by"+" "+ loss);
        }
     obj.setBudget(totalExp);
-    obj.setExpense(totalBudget);
-
-
-
-       
+    obj.setExpense(totalBudget); 
     return  ResponseEntity.ok(obj);
     
 }
@@ -113,7 +108,7 @@ public ResponseEntity<ExpanseSummeryDTO> summeryMethod() {
 			 
             List <CategoryDTO> categoryDTOs= categoryService.categoryByUser();
            Double amount= expanseService.getTotalExpenses();
-            expanseSummeryDTO.setCategoryDTOs(categoryDTOs); 
+            expanseSummeryDTO.setCategoryDTOs(categoryDTOs);
             expanseSummeryDTO.setTotalExpenses(amount);
             return ResponseEntity.ok().body(expanseSummeryDTO);
             
@@ -126,10 +121,16 @@ public ResponseEntity<ExpanseSummeryDTO> summeryMethod() {
 
    @GetMapping("/totalBudget")
    public Double budgetByUser() {
-    Optional<User> optional = userRepository.findById(getLoggedUser().getUid());
-    Double totalBudget= budgetService.getTotalBudgetByUser(optional.get());
-    return totalBudget;
+    double total = 0;
+    try {
+      total= categoryService.getTotalBudgetByUser(getLoggedUser());
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return total;
    }
+
+
 }
 
 

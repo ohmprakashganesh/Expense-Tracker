@@ -41,9 +41,8 @@ public class UserServicesiceImpl implements UserServices{
         // user.setNumber(userDTO.getNumber());
         // user.setNumber(938447547);
 
-        user.setExpanses(convertToExpanse(userDTO.getExpansesDtos(),user));
         user.setCategories(convertToCategories(userDTO.getCategoriesDtos(),user));
-        user.setBudgets(convertToBudgets(userDTO.getBudgetsDtos(),user));
+        
         return userRepository.save(user);
     }
 
@@ -72,7 +71,6 @@ public class UserServicesiceImpl implements UserServices{
         return budgetDTOs.stream().map(dto->{
             Budget budget=  new Budget();
             budget.setAmount(dto.getAmount());
-            budget.setUser(user);
             return budget;
         }).collect(Collectors.toList());
         // Implement conversion logic

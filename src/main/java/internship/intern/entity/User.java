@@ -38,38 +38,51 @@ public class User implements UserDetails {
     private  String name;
     private String email;
     private String password;
-    // private String  image;
-    // private int number;
-    // private String address;
 
     
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private ForgetPassword forgotPassword;
-
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     @ToString.Exclude
-    private List<Expanse> expanses=  new ArrayList<>();
-    
+    private List<Category> categories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIgnore
-	@ToString.Exclude
-    private List<Budget> budgets=new ArrayList<>();
-
-
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIgnore
-    @ToString.Exclude
-    private List<Category> categories=new ArrayList<>();
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private RefreshToken refreshToken;
+
+    
+    // @OneToOne(mappedBy = "user")
+    // private ForgetPassword forgotPassword;
+
+
+    // @Enumerated(EnumType.STRING)
+    // private UserRole role;
+
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // @ToString.Exclude
+    // private List<Expanse> expanses=  new ArrayList<>();
+    
+
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    // @JsonIgnore
+	// @ToString.Exclude
+    // private List<Budget> budgets=new ArrayList<>();
+
+
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    // @JsonIgnore
+    // @ToString.Exclude
+    // private List<Category> categories=new ArrayList<>();
+
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // @JsonIgnore
+    // private RefreshToken refreshToken;
 
 
     

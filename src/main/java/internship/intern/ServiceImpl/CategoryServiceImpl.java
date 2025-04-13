@@ -62,7 +62,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public Budget budgetGet(CategoryDTO categoryDTO, Budget budget){
-      budget.setUser(getLoggedUser());
       budget.setAmount(categoryDTO.getAmount());
       budget.setStartDate(categoryDTO.getStartDate());
        return budgetRepository.save(budget);
@@ -192,6 +191,13 @@ public class CategoryServiceImpl implements CategoryService {
       return categoryDTOs;
       
 
+  }
+
+
+  @Override
+  public Double getTotalBudgetByUser(User user) {
+     return categoryRepository.findTotalBudgetByUser(user);
+  
   }
 
 }

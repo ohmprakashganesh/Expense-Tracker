@@ -32,15 +32,27 @@ public class Expanse {
 
 	private Double amount;
 
-    @ManyToOne
-	@ToString.Exclude
-	@JsonManagedReference // Add this annotation
-    @JoinColumn(name = "user_id",nullable = false)
-     private User user;
+	@ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
+    private User user;
 
-   @ManyToOne
-   @ToString.Exclude
-   @JsonManagedReference
-   @JoinColumn(name ="category_id",nullable = false)
-   private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    @ToString.Exclude
+    @JsonManagedReference
+    private Category category;
+
+//     @ManyToOne
+// 	@ToString.Exclude
+// 	@JsonManagedReference // Add this annotation
+//     @JoinColumn(name = "user_id",nullable = false)
+//      private User user;
+
+//    @ManyToOne
+//    @ToString.Exclude
+//    @JsonManagedReference
+//    @JoinColumn(name ="category_id",nullable = false)
+//    private Category category;
 }

@@ -29,19 +29,35 @@ public class Category {
     private String name;
     
 
-    @ManyToOne
+
+  @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name= "budget_id", nullable = false)
+    @JoinColumn(name = "budget_id", nullable = false)
     @JsonIgnore
     @ToString.Exclude
     private Budget budget;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     @ToString.Exclude
     private List<Expanse> expanses;
+
+    // @ManyToOne
+    // @JoinColumn(name = "user_id", nullable = false)
+    // private User user;
+
+    // @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    // @JoinColumn(name= "budget_id", nullable = false)
+    // @JsonIgnore
+    // @ToString.Exclude
+    // private Budget budget;
+
+    // @OneToMany(mappedBy = "category",cascade = CascadeType.ALL,orphanRemoval = true)
+    // @JsonBackReference
+    // @ToString.Exclude
+    // private List<Expanse> expanses;
     
 }

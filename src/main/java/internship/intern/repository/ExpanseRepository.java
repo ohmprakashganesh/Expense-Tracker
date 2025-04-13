@@ -34,7 +34,10 @@ public interface ExpanseRepository extends JpaRepository<Expanse, Long> {
     @Query("SELECT SUM(e.amount) FROM Expanse e WHERE e.user = :user")
     Double findAmountByUser(User user);
 
-  
+
+    // @Query("SELECT SUM(b.amount) FROM Expanse e WHERE e.category.user=:user")
+    //  Double findTotalExpanseByUser(@Param("user") User user);
+
 
 
     @Query("SELECT c FROM Category c WHERE c.name = :categoryName")

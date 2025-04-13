@@ -30,9 +30,9 @@ public class Budget {
      @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-     private User user;
+    // @ManyToOne
+    // @JoinColumn(name = "user_id", nullable = false)
+    //  private User user;
 
 
 
